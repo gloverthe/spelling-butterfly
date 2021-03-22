@@ -7,7 +7,9 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -20,9 +22,13 @@ import java.util.Iterator;
 public class SpellingButterfly extends ApplicationAdapter {
 
 //	butterfly
-	private Texture butterflySprite;
+	private Texture butterflySprite_1;
+	private Texture butterflySprite_2;
+	private Texture butterflySprite_3;
 	private Sound wingFlap;
 	private Rectangle butterfly;
+	Animation<TextureRegion> butterflySprite;
+	float butterflyStateTime = 0;
 	final int BUTTERFLY_FALL_SPEED = -110;
 
 //	Screen Dimensions
@@ -56,15 +62,35 @@ public class SpellingButterfly extends ApplicationAdapter {
 
 	@Override
 	public void create () {
+
+
+
 //		create butterfly
-		butterflySprite = new Texture(Gdx.files.internal("butterfly-removebg.png"));
+		butterflySprite_1 = new Texture(Gdx.files.internal("Butterfly_1.png"));
+		butterflySprite_2 = new Texture(Gdx.files.internal("Butterfly_3.png"));
+		butterflySprite_3 = new Texture(Gdx.files.internal("Butterfly_2.png"));
+
+		butterflySprite_1.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+		butterflySprite = 	new Animation<TextureRegion>(0.05f,
+							new TextureRegion(butterflySprite_1),
+							new TextureRegion(butterflySprite_2),
+							new TextureRegion(butterflySprite_3),
+							new TextureRegion(butterflySprite_1));
+		butterflySprite.setPlayMode(Animation.PlayMode.LOOP);
+
+
 		wingFlap = Gdx.audio.newSound(Gdx.files.internal("butterflyFlapPCM.wav"));
 		flowerPop = Gdx.audio.newSound(Gdx.files.internal("pop.wav"));
 		butterfly = new Rectangle();
 		butterfly.x = 20;
 		butterfly.y = (screenHeight / 2) - (butterfly.height / 2);
-		butterfly.width = 217;
+		butterfly.width = 205;
 		butterfly.height = 190;
+
+
+
+
+
 
 //		Butterfly.create();
 
@@ -81,9 +107,9 @@ public class SpellingButterfly extends ApplicationAdapter {
 //		create background
 		flowerBackground1 = new Texture(Gdx.files.internal("FlowersBackground_1920x1280.jpg"));
 		flowerBackground2 = new Texture(Gdx.files.internal("FlowersBackground_1920x1280.jpg")); // identical
-		xMax = 1920;
+		xMax = screenWidth;
 		xMin = 0;
-		xCoordBg1 = xMin; xCoordBg2 = 1920;
+		xCoordBg1 = xMin; xCoordBg2 = screenWidth;
 
 
 //		create the flowers
@@ -98,8 +124,8 @@ public class SpellingButterfly extends ApplicationAdapter {
 
 	private void spawnFlower() {
 		Rectangle pinkFlower_1 = new Rectangle();
-		pinkFlower_1.x = 1920;
-		pinkFlower_1.y = MathUtils.random(0, 1280-pinkFlower_1_Height);
+		pinkFlower_1.x = screenWidth;
+		pinkFlower_1.y = MathUtils.random(0, screenHeight-pinkFlower_1_Height);
 		pinkFlower_1.width = pinkFlower_1_Width;
 		pinkFlower_1.height = pinkFlower_1_Height;
 		flowers.add(pinkFlower_1);
@@ -109,13 +135,15 @@ public class SpellingButterfly extends ApplicationAdapter {
 	@Override
 	public void render () {
 
+		float deltaTime = Gdx.graphics.getDeltaTime();
+		butterflyStateTime += deltaTime;
 
 
 //		Render Background
 		xCoordBg1 += BACKGROUND_MOVE_SPEED * Gdx.graphics.getDeltaTime();
 		xCoordBg2 = xCoordBg1 + xMax;  // We move the background, not the camera
-		if (xCoordBg1 <= -1920 ) {
-			xCoordBg1 = xMin; xCoordBg2 = 1920;
+		if (xCoordBg1 <= -screenWidth ) {
+			xCoordBg1 = xMin; xCoordBg2 = screenWidth;
 		}
 
 
@@ -123,7 +151,8 @@ public class SpellingButterfly extends ApplicationAdapter {
 		batch.begin();
 		batch.draw(flowerBackground1, xCoordBg1, 0);
 		batch.draw(flowerBackground2, xCoordBg2, 0);
-		batch.draw(butterflySprite, butterfly.x, butterfly.y);
+		batch.draw(butterflySprite.getKeyFrame(butterflyStateTime), butterfly.x, butterfly.y);
+
 		for(Rectangle pinkFlower_1: flowers) {
 			batch.draw(pinkFlower_1_Sprite, pinkFlower_1.x, pinkFlower_1.y);
 		}
@@ -148,7 +177,7 @@ public class SpellingButterfly extends ApplicationAdapter {
 
 		butterfly.y += BACKGROUND_MOVE_SPEED * Gdx.graphics.getDeltaTime();
 		if(butterfly.y < 0) butterfly.y = 0;
-		if(butterfly.y > 1280 - 190) butterfly.y =  1280 - 190;
+		if(butterfly.y > screenWidth - 190) butterfly.y =  screenWidth - 190;
 
 
 //		flowers
@@ -172,6 +201,6 @@ public class SpellingButterfly extends ApplicationAdapter {
 		batch.dispose();
 		flowerBackground1.dispose();
 		flowerBackground2.dispose();
-		butterflySprite.dispose();
+		pinkFlower_1_Sprite.dispose();
 	}
 }
