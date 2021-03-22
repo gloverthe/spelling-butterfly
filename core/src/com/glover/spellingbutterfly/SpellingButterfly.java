@@ -38,6 +38,7 @@ public class SpellingButterfly extends ApplicationAdapter {
 //	Flowers
 	private Texture pinkFlower_1_Sprite;
 	private Texture pinkFlower_2_Sprite;
+	private Texture flowerToDraw;
 	private Sound flowerPop;
 	private Array<Rectangle> flowers;
 	private long lastFlowerTime;
@@ -113,8 +114,8 @@ public class SpellingButterfly extends ApplicationAdapter {
 
 
 //		create the flowers
-		pinkFlower_1_Sprite	= new Texture(Gdx.files.internal("pinkFlower_1.png"));
-		pinkFlower_2_Sprite	= new Texture(Gdx.files.internal("pinkFlower_2.png"));
+		pinkFlower_1_Sprite	= new Texture(Gdx.files.internal("pinkFlower_2.png"));
+		pinkFlower_2_Sprite	= new Texture(Gdx.files.internal("pinkFlower_1.png"));
 
 		flowers = new Array<Rectangle>();
 		spawnFlower();
@@ -123,20 +124,37 @@ public class SpellingButterfly extends ApplicationAdapter {
 	}
 
 	private void spawnFlower() {
-		Rectangle pinkFlower_1 = new Rectangle();
-		pinkFlower_1.x = screenWidth;
-		pinkFlower_1.y = MathUtils.random(0, screenHeight-pinkFlower_1_Height);
-		pinkFlower_1.width = pinkFlower_1_Width;
-		pinkFlower_1.height = pinkFlower_1_Height;
-		flowers.add(pinkFlower_1);
-		lastFlowerTime = TimeUtils.nanoTime();
+		boolean whichFlower = MathUtils.randomBoolean();
+		if (whichFlower == true) {
+
+			Rectangle pinkFlower_1 = new Rectangle();
+			pinkFlower_1.x = screenWidth;
+			pinkFlower_1.y = MathUtils.random(0, screenHeight-pinkFlower_1_Height);
+			pinkFlower_1.width = pinkFlower_1_Width;
+			pinkFlower_1.height = pinkFlower_1_Height;
+			flowers.add(pinkFlower_1);
+			flowerToDraw = pinkFlower_1_Sprite;
+			lastFlowerTime = TimeUtils.nanoTime();
+
+		}
+		if (whichFlower == false) {
+			Rectangle pinkFlower_1 = new Rectangle();
+			pinkFlower_1.x = screenWidth;
+			pinkFlower_1.y = MathUtils.random(0, screenHeight - pinkFlower_2_Height);
+			pinkFlower_1.width = pinkFlower_2_Width;
+			pinkFlower_1.height = pinkFlower_2_Height;
+			flowers.add(pinkFlower_1);
+			flowerToDraw = pinkFlower_2_Sprite;
+			lastFlowerTime = TimeUtils.nanoTime();
+		}
 	}
 
 	@Override
-	public void render () {
+	public void render() {
 
 		float deltaTime = Gdx.graphics.getDeltaTime();
 		butterflyStateTime += deltaTime;
+
 
 
 //		Render Background
@@ -154,17 +172,21 @@ public class SpellingButterfly extends ApplicationAdapter {
 		batch.draw(butterflySprite.getKeyFrame(butterflyStateTime), butterfly.x, butterfly.y);
 
 		for(Rectangle pinkFlower_1: flowers) {
-			batch.draw(pinkFlower_1_Sprite, pinkFlower_1.x, pinkFlower_1.y);
+				batch.draw(flowerToDraw, pinkFlower_1.x, pinkFlower_1.y);
 		}
 
 		System.out.println("X BG1 = " + xCoordBg1 + ", X BG2 = " + xCoordBg2);
+//		System.out.println("Which flower is " + whichFlower + " and flowerToDraw is : " + flowerToDraw);
 		batch.end();
 
 		if(Gdx.input.isTouched()) {
-			Vector3 touchPos = new Vector3();
-			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-			camera.unproject(touchPos);
-			butterfly.y = touchPos.y - (190 / 2);
+			//need to fix input so touch does not send it crazy
+//			Vector3 touchPos = new Vector3();
+//			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+//			camera.unproject(touchPos);
+//			butterfly.y = touchPos.y - (190 / 2);
+			butterfly.y += 2000 * Gdx.graphics.getDeltaTime();
+			wingFlap.play();
 		}
 
 		if(Gdx.input.isKeyPressed(Input.Keys.UP)) butterfly.y += 200 * Gdx.graphics.getDeltaTime();
@@ -177,7 +199,7 @@ public class SpellingButterfly extends ApplicationAdapter {
 
 		butterfly.y += BACKGROUND_MOVE_SPEED * Gdx.graphics.getDeltaTime();
 		if(butterfly.y < 0) butterfly.y = 0;
-		if(butterfly.y > screenWidth - 190) butterfly.y =  screenWidth - 190;
+		if(butterfly.y > screenHeight - 190) butterfly.y =  screenHeight - 190;
 
 
 //		flowers
