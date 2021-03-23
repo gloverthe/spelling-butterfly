@@ -22,14 +22,14 @@ import java.util.Iterator;
 public class SpellingButterfly extends ApplicationAdapter {
 
 //	butterfly
-	private Texture butterflySprite_1;
-	private Texture butterflySprite_2;
-	private Texture butterflySprite_3;
-	private Sound wingFlap;
-	private Rectangle butterfly;
-	Animation<TextureRegion> butterflySprite;
-	float butterflyStateTime = 0;
-	final int BUTTERFLY_FALL_SPEED = -110;
+//	private Texture butterflySprite_1;
+//	private Texture butterflySprite_2;
+//	private Texture butterflySprite_3;
+//	private Sound wingFlap;
+//	private Rectangle butterfly;
+//	Animation<TextureRegion> butterflySprite;
+//	float butterflyStateTime = 0;
+//	final int BUTTERFLY_FALL_SPEED = -110;
 
 //	Screen Dimensions
 	int screenHeight = 1280;
@@ -44,8 +44,8 @@ public class SpellingButterfly extends ApplicationAdapter {
 	private long lastFlowerTime;
 	private int pinkFlower_1_Height = 146;
 	private int pinkFlower_1_Width = 110;
-	private int pinkFlower_2_Height = 101;
-	private int pinkFlower_2_Width = 101;
+	private int pinkFlower_2_Height = 100;
+	private int pinkFlower_2_Width = 100;
 
 //	Background images
 	private Texture flowerBackground1, flowerBackground2;
@@ -66,34 +66,31 @@ public class SpellingButterfly extends ApplicationAdapter {
 
 
 
-//		create butterfly
-		butterflySprite_1 = new Texture(Gdx.files.internal("Butterfly_1.png"));
-		butterflySprite_2 = new Texture(Gdx.files.internal("Butterfly_3.png"));
-		butterflySprite_3 = new Texture(Gdx.files.internal("Butterfly_2.png"));
+////		create butterfly
+//		butterflySprite_1 = new Texture(Gdx.files.internal("Butterfly_1.png"));
+//		butterflySprite_2 = new Texture(Gdx.files.internal("Butterfly_3.png"));
+//		butterflySprite_3 = new Texture(Gdx.files.internal("Butterfly_2.png"));
+//
+//		butterflySprite_1.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+//		butterflySprite = 	new Animation<TextureRegion>(0.05f,
+//							new TextureRegion(butterflySprite_1),
+//							new TextureRegion(butterflySprite_2),
+//							new TextureRegion(butterflySprite_3),
+//							new TextureRegion(butterflySprite_1));
+//		butterflySprite.setPlayMode(Animation.PlayMode.LOOP);
+//
+//
+//		wingFlap = Gdx.audio.newSound(Gdx.files.internal("butterflyFlapPCM.wav"));
+//
+//		butterfly = new Rectangle();
+//		butterfly.x = 20;
+//		butterfly.y = (screenHeight / 2) - (butterfly.height / 2);
+//		butterfly.width = 205;
+//		butterfly.height = 190;
 
-		butterflySprite_1.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-		butterflySprite = 	new Animation<TextureRegion>(0.05f,
-							new TextureRegion(butterflySprite_1),
-							new TextureRegion(butterflySprite_2),
-							new TextureRegion(butterflySprite_3),
-							new TextureRegion(butterflySprite_1));
-		butterflySprite.setPlayMode(Animation.PlayMode.LOOP);
-
-
-		wingFlap = Gdx.audio.newSound(Gdx.files.internal("butterflyFlapPCM.wav"));
 		flowerPop = Gdx.audio.newSound(Gdx.files.internal("pop.wav"));
-		butterfly = new Rectangle();
-		butterfly.x = 20;
-		butterfly.y = (screenHeight / 2) - (butterfly.height / 2);
-		butterfly.width = 205;
-		butterfly.height = 190;
 
-
-
-
-
-
-//		Butterfly.create();
+		Butterfly.load();
 
 
 
@@ -153,7 +150,7 @@ public class SpellingButterfly extends ApplicationAdapter {
 	public void render() {
 
 		float deltaTime = Gdx.graphics.getDeltaTime();
-		butterflyStateTime += deltaTime;
+		Butterfly.butterflyStateTime += deltaTime;
 
 
 
@@ -169,7 +166,7 @@ public class SpellingButterfly extends ApplicationAdapter {
 		batch.begin();
 		batch.draw(flowerBackground1, xCoordBg1, 0);
 		batch.draw(flowerBackground2, xCoordBg2, 0);
-		batch.draw(butterflySprite.getKeyFrame(butterflyStateTime), butterfly.x, butterfly.y);
+		batch.draw(Butterfly.butterflySprite.getKeyFrame(Butterfly.butterflyStateTime), Butterfly.butterfly.x, Butterfly.butterfly.y);
 
 		for(Rectangle pinkFlower_1: flowers) {
 				batch.draw(flowerToDraw, pinkFlower_1.x, pinkFlower_1.y);
@@ -185,21 +182,21 @@ public class SpellingButterfly extends ApplicationAdapter {
 //			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 //			camera.unproject(touchPos);
 //			butterfly.y = touchPos.y - (190 / 2);
-			butterfly.y += 2000 * Gdx.graphics.getDeltaTime();
-			wingFlap.play();
+			Butterfly.butterfly.y += 2000 * Gdx.graphics.getDeltaTime();
+			Butterfly.wingFlap.play();
 		}
 
-		if(Gdx.input.isKeyPressed(Input.Keys.UP)) butterfly.y += 200 * Gdx.graphics.getDeltaTime();
-		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) butterfly.y -= 200 * Gdx.graphics.getDeltaTime();
+		if(Gdx.input.isKeyPressed(Input.Keys.UP)) Butterfly.butterfly.y += 200 * Gdx.graphics.getDeltaTime();
+		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) Butterfly.butterfly.y -= 200 * Gdx.graphics.getDeltaTime();
 
 		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-			butterfly.y += 2000 * Gdx.graphics.getDeltaTime();
-			wingFlap.play();
+			Butterfly.butterfly.y += 2000 * Gdx.graphics.getDeltaTime();
+			Butterfly.wingFlap.play();
 		}
 
-		butterfly.y += BACKGROUND_MOVE_SPEED * Gdx.graphics.getDeltaTime();
-		if(butterfly.y < 0) butterfly.y = 0;
-		if(butterfly.y > screenHeight - 190) butterfly.y =  screenHeight - 190;
+		Butterfly.butterfly.y += BACKGROUND_MOVE_SPEED * Gdx.graphics.getDeltaTime();
+		if(Butterfly.butterfly.y < 0) Butterfly.butterfly.y = 0;
+		if(Butterfly.butterfly.y > screenHeight - 190) Butterfly.butterfly.y =  screenHeight - 190;
 
 
 //		flowers
@@ -210,7 +207,7 @@ public class SpellingButterfly extends ApplicationAdapter {
 			pinkFlower_1.x -= 200 * Gdx.graphics.getDeltaTime();
 			if(pinkFlower_1.x  < (0 - pinkFlower_1_Width)) iter.remove();
 
-		if(pinkFlower_1.overlaps(butterfly)) {
+		if(pinkFlower_1.overlaps(Butterfly.butterfly)) {
 			flowerPop.play();
 			iter.remove();
 			}
