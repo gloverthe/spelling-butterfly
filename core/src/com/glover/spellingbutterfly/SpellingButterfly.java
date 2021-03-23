@@ -3,41 +3,30 @@ package com.glover.spellingbutterfly;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
-
 import java.util.Iterator;
 
 
 public class SpellingButterfly extends ApplicationAdapter {
 
-
-//	Background images
-	private Texture flowerBackground1, flowerBackground2;
-	float xMax, xMin, xCoordBg1, xCoordBg2;
-	final int BACKGROUND_MOVE_SPEED = -100; // pixels per second. Put your value here.
-
-
-
 //	Other
 	private SpriteBatch batch;
 	private OrthographicCamera camera;
+
+	private int flowerCounter;
+	private int totalScore;
+	public BitmapFont font;
+	private long flapTime;
 
 
 
 	@Override
 	public void create () {
-
+		Background.load();
 		Butterfly.load();
 		Flowers.load();
 
@@ -45,17 +34,9 @@ public class SpellingButterfly extends ApplicationAdapter {
 //		create camera
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false,  Screen.SCREEN_WIDTH , Screen.SCREEN_HEIGHT);
-
+		font = new BitmapFont(); // use libGDX's default Arial font
+		font.getData().setScale(6, 6);
 		batch = new SpriteBatch();
-
-
-//		create background
-		flowerBackground1 = new Texture(Gdx.files.internal("FlowersBackground_1920x1280.jpg"));
-		flowerBackground2 = new Texture(Gdx.files.internal("FlowersBackground_1920x1280.jpg")); // identical
-		xMax = Screen.SCREEN_WIDTH;
-		xMin = 0;
-		xCoordBg1 = xMin; xCoordBg2 = Screen.SCREEN_WIDTH;
-
 
 	}
 
@@ -69,17 +50,18 @@ public class SpellingButterfly extends ApplicationAdapter {
 
 
 //		Render Background
-		xCoordBg1 += BACKGROUND_MOVE_SPEED * Gdx.graphics.getDeltaTime();
-		xCoordBg2 = xCoordBg1 + xMax;  // We move the background, not the camera
-		if (xCoordBg1 <= - Screen.SCREEN_WIDTH ) {
-			xCoordBg1 = xMin; xCoordBg2 = Screen.SCREEN_WIDTH;
+		Background.xCoordBg1 += Background.BACKGROUND_MOVE_SPEED * Gdx.graphics.getDeltaTime();
+		Background.xCoordBg2 = Background.xCoordBg1 + Background.xMax;  // We move the background, not the camera
+		if (Background.xCoordBg1 <= - Screen.SCREEN_WIDTH ) {
+			Background.xCoordBg1 = Background.xMin; Background.xCoordBg2 = Screen.SCREEN_WIDTH;
 		}
 
 
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		batch.draw(flowerBackground1, xCoordBg1, 0);
-		batch.draw(flowerBackground2, xCoordBg2, 0);
+		batch.draw(Background.flowerBackground1, Background.xCoordBg1, 0);
+		batch.draw(Background.flowerBackground2, Background.xCoordBg2, 0);
+		font.draw(batch, "Score: " + totalScore, 1500, 70);
 		batch.draw(Butterfly.butterflySprite.getKeyFrame(Butterfly.butterflyStateTime), Butterfly.butterfly.x, Butterfly.butterfly.y);
 
 		for(Rectangle pinkFlower_1: Flowers.flowers) {
@@ -89,6 +71,7 @@ public class SpellingButterfly extends ApplicationAdapter {
 //		DEBUG LINEs
 //		System.out.println("X BG1 = " + xCoordBg1 + ", X BG2 = " + xCoordBg2);
 //		System.out.println("Which flower is " + whichFlower + " and flowerToDraw is : " + flowerToDraw);
+		System.out.println(("Total Score: " + totalScore));
 		batch.end();
 
 		if(Gdx.input.isTouched()) {
@@ -97,8 +80,12 @@ public class SpellingButterfly extends ApplicationAdapter {
 //			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 //			camera.unproject(touchPos);
 //			butterfly.y = touchPos.y - (190 / 2);
+
 			Butterfly.butterfly.y += 2000 * Gdx.graphics.getDeltaTime();
-			Butterfly.wingFlap.play();
+			if (TimeUtils.nanoTime() - flapTime> 100000000) {
+				Butterfly.wingFlap.play();
+				flapTime = TimeUtils.nanoTime();
+			}
 		}
 
 		if(Gdx.input.isKeyPressed(Input.Keys.UP)) Butterfly.butterfly.y += 200 * Gdx.graphics.getDeltaTime();
@@ -109,7 +96,7 @@ public class SpellingButterfly extends ApplicationAdapter {
 			Butterfly.wingFlap.play();
 		}
 
-		Butterfly.butterfly.y += BACKGROUND_MOVE_SPEED * Gdx.graphics.getDeltaTime();
+		Butterfly.butterfly.y += -150 * Gdx.graphics.getDeltaTime();
 		if(Butterfly.butterfly.y < 0) Butterfly.butterfly.y = 0;
 		if(Butterfly.butterfly.y > Screen.SCREEN_HEIGHT - 190) Butterfly.butterfly.y =  Screen.SCREEN_HEIGHT - 190;
 
@@ -120,10 +107,19 @@ public class SpellingButterfly extends ApplicationAdapter {
 		for (Iterator<Rectangle> iter = Flowers.flowers.iterator(); iter.hasNext(); ) {
 			Rectangle pinkFlower_1 = iter.next();
 			pinkFlower_1.x -= 200 * Gdx.graphics.getDeltaTime();
-			if(pinkFlower_1.x  < (0 - Flowers.pinkFlower_1_Width)) iter.remove();
+			if(pinkFlower_1.x  < (0 - Flowers.pinkFlower_1_Width)) {
+				iter.remove();
+				totalScore--;
+
+			}
 
 		if(pinkFlower_1.overlaps(Butterfly.butterfly)) {
 			Flowers.flowerPop.play();
+			flowerCounter ++;
+			totalScore += Flowers.FLOWER_POINTS;
+			if(flowerCounter % 5 == 0) {
+				System.out.println("Spell a word");
+			}
 			iter.remove();
 			}
 		}
@@ -133,8 +129,8 @@ public class SpellingButterfly extends ApplicationAdapter {
 	@Override
 	public void dispose () {
 		batch.dispose();
-		flowerBackground1.dispose();
-		flowerBackground2.dispose();
+		Background.flowerBackground1.dispose();
+		Background.flowerBackground2.dispose();
 		Flowers.pinkFlower_1_Sprite.dispose();
 		Flowers.pinkFlower_2_Sprite.dispose();
 		Butterfly.butterflySprite_1.dispose();

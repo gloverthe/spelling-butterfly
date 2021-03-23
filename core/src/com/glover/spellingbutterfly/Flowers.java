@@ -21,6 +21,8 @@ public class Flowers {
     public static int pinkFlower_2_Height = 100;
     public static int pinkFlower_2_Width = 100;
 
+    public final static int FLOWER_POINTS = 2;
+
     public static void load() {
 
 
