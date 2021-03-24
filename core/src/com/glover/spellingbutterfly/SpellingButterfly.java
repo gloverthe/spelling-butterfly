@@ -6,8 +6,11 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
+
+import java.util.ArrayList;
 import java.util.Iterator;
 
 
@@ -16,11 +19,13 @@ public class SpellingButterfly extends ApplicationAdapter {
 //	Other
 	private SpriteBatch batch;
 	private OrthographicCamera camera;
-
+	private ArrayList<String> currentWordListArray = new ArrayList<>();
+	private int currentWordListArrayLength;
 	private int flowerCounter;
 	private int totalScore;
 	public BitmapFont font;
 	private long flapTime;
+
 
 
 
@@ -29,6 +34,8 @@ public class SpellingButterfly extends ApplicationAdapter {
 		Background.load();
 		Butterfly.load();
 		Flowers.load();
+
+
 
 
 //		create camera
@@ -46,6 +53,10 @@ public class SpellingButterfly extends ApplicationAdapter {
 
 		float deltaTime = Gdx.graphics.getDeltaTime();
 		Butterfly.butterflyStateTime += deltaTime;
+		currentWordListArray = ReadWords.wordListArray("Level_1");
+		currentWordListArrayLength = currentWordListArray.size();
+
+		String randomWord;
 
 
 
@@ -71,7 +82,7 @@ public class SpellingButterfly extends ApplicationAdapter {
 //		DEBUG LINEs
 //		System.out.println("X BG1 = " + xCoordBg1 + ", X BG2 = " + xCoordBg2);
 //		System.out.println("Which flower is " + whichFlower + " and flowerToDraw is : " + flowerToDraw);
-		System.out.println(("Total Score: " + totalScore));
+//		System.out.println(("Total Score: " + totalScore));
 		batch.end();
 
 		if(Gdx.input.isTouched()) {
@@ -119,6 +130,9 @@ public class SpellingButterfly extends ApplicationAdapter {
 			totalScore += Flowers.FLOWER_POINTS;
 			if(flowerCounter % 5 == 0) {
 				System.out.println("Spell a word");
+				randomWord = currentWordListArray.get(MathUtils.random(0, currentWordListArrayLength));
+				System.out.println("The word is "+ randomWord);
+//				randomWord = currentWordListArray.();
 			}
 			iter.remove();
 			}

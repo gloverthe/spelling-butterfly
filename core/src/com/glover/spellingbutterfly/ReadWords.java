@@ -1,36 +1,32 @@
 package com.glover.spellingbutterfly;
 
-import java.io.File;
+import com.badlogic.gdx.math.MathUtils;
+
+import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class ReadWords {
+//
 
+    public static ArrayList<String> wordListArray(String filename) {
+        ArrayList<String> wordListArray = new ArrayList<>();
 
-//    Scanner s = new Scanner(new File(filename));
-//    Scanner s = new Scanner(new FileReader(filename));
-FileReader f = new FileReader(String "Level_1.txt");
-
-
-    ArrayList<String> result = new ArrayList<>();
-    public String importLevels() {
-        FileReader f = new FileReader("Level_1.txt");
-            StringBuffer sb = new StringBuffer();
-            while (f.ready()) {
-                char c = (char) f.read();
-                if (c == '\n') {
-                    result.add(sb.toString());
-                    sb = new StringBuffer();
-                } else {
-                    sb.append(c);
-                }
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("WordLists/" + filename + ".txt"));
+            while (br.ready()) {
+                wordListArray.add(br.readLine());
             }
-            if (sb.length() > 0) {
-                result.add(sb.toString());
-            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return wordListArray;
+        //       result.forEach(System.out::println);
+//        System.out.println(result.get(4));
+//        System.out.println(result.get(5));
+    }
 
-        return result;
-         }
+
 
 }
