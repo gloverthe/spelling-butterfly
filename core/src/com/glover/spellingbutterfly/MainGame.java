@@ -20,13 +20,12 @@ public class MainGame implements Screen {
     final SpellingButterfly game;
 
     //	Other
-  private SpriteBatch batch;
+    private SpriteBatch batch;
     private OrthographicCamera camera;
-    private ArrayList<String> currentWordListArray = new ArrayList<>();
-    private int currentWordListArrayLength;
+
     private int flowerCounter;
     private int totalScore;
-    public BitmapFont font;
+//    public BitmapFont font;
     private long flapTime;
 
     public MainGame(final SpellingButterfly playGame) {
@@ -35,12 +34,11 @@ public class MainGame implements Screen {
         Background.load();
         Butterfly.load();
         Flowers.load();
-        currentWordListArray = ReadWords.wordListArray("Level_1");
-        currentWordListArrayLength = currentWordListArray.size();
+
 
 //		create camera
         camera = new OrthographicCamera();
-        camera.setToOrtho(false,  com.glover.spellingbutterfly.Screen.SCREEN_WIDTH , com.glover.spellingbutterfly.Screen.SCREEN_HEIGHT);
+        camera.setToOrtho(false,  com.glover.spellingbutterfly.Constants.SCREEN_WIDTH , com.glover.spellingbutterfly.Constants.SCREEN_HEIGHT);
 
 
     }
@@ -51,15 +49,15 @@ public class MainGame implements Screen {
         Butterfly.butterflyStateTime += deltaTime;
 
 
-        String randomWord;
+
 
 
 
 //		Render Background
         Background.xCoordBg1 += Background.BACKGROUND_MOVE_SPEED * Gdx.graphics.getDeltaTime();
         Background.xCoordBg2 = Background.xCoordBg1 + Background.xMax;  // We move the background, not the camera
-        if (Background.xCoordBg1 <= - com.glover.spellingbutterfly.Screen.SCREEN_WIDTH ) {
-            Background.xCoordBg1 = Background.xMin; Background.xCoordBg2 = com.glover.spellingbutterfly.Screen.SCREEN_WIDTH;
+        if (Background.xCoordBg1 <= - com.glover.spellingbutterfly.Constants.SCREEN_WIDTH ) {
+            Background.xCoordBg1 = Background.xMin; Background.xCoordBg2 = com.glover.spellingbutterfly.Constants.SCREEN_WIDTH;
         }
 
 
@@ -104,7 +102,7 @@ public class MainGame implements Screen {
 
         Butterfly.butterfly.y += -150 * Gdx.graphics.getDeltaTime();
         if(Butterfly.butterfly.y < 0) Butterfly.butterfly.y = 0;
-        if(Butterfly.butterfly.y > com.glover.spellingbutterfly.Screen.SCREEN_HEIGHT - 190) Butterfly.butterfly.y =  com.glover.spellingbutterfly.Screen.SCREEN_HEIGHT - 190;
+        if(Butterfly.butterfly.y > com.glover.spellingbutterfly.Constants.SCREEN_HEIGHT - 190) Butterfly.butterfly.y =  com.glover.spellingbutterfly.Constants.SCREEN_HEIGHT - 190;
 
 
 //		flowers
@@ -123,10 +121,11 @@ public class MainGame implements Screen {
                 Flowers.flowerPop.play();
                 flowerCounter ++;
                 totalScore += Flowers.FLOWER_POINTS;
-                if(flowerCounter % 5 == 0) {
-                    System.out.println("Spell a word");
-                    randomWord = currentWordListArray.get(MathUtils.random(0, currentWordListArrayLength));
-                    System.out.println("The word is "+ randomWord);
+                if(flowerCounter % 1 == 0) {
+                    game.setScreen(new HiddenWordGame(game));
+//                    System.out.println("Spell a word");
+//                    randomWord = currentWordListArray.get(MathUtils.random(0, currentWordListArrayLength));
+//                    System.out.println("The word is "+ randomWord);
 
                 }
                 iter.remove();

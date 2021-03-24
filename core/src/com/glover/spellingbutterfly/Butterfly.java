@@ -38,7 +38,7 @@ public class Butterfly {
 
         butterfly = new Rectangle();
         butterfly.x = 20;
-        butterfly.y = (Screen.SCREEN_HEIGHT / 2) - (butterfly.height / 2);
+        butterfly.y = (Constants.SCREEN_HEIGHT / 2) - (butterfly.height / 2);
         butterfly.width = 205;
         butterfly.height = 190;
     }

@@ -13,9 +13,9 @@ public class Background {
         //		create background
         flowerBackground1 = new Texture(Gdx.files.internal("FlowersBackground_1920x1280.jpg"));
         flowerBackground2 = new Texture(Gdx.files.internal("FlowersBackground_1920x1280.jpg")); // identical
-        xMax = Screen.SCREEN_WIDTH;
+        xMax = Constants.SCREEN_WIDTH;
         xMin = 0;
-        xCoordBg1 = xMin; xCoordBg2 = Screen.SCREEN_WIDTH;
+        xCoordBg1 = xMin; xCoordBg2 = Constants.SCREEN_WIDTH;
 
 
 

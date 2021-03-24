@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.sun.org.apache.bcel.internal.Const;
 
 public class Flowers {
     public static Texture pinkFlower_1_Sprite;
@@ -42,8 +43,8 @@ public class Flowers {
         if (whichFlower == true) {
 
             Rectangle pinkFlower_1 = new Rectangle();
-            pinkFlower_1.x = Screen.SCREEN_WIDTH;
-            pinkFlower_1.y = MathUtils.random(0, Screen.SCREEN_HEIGHT - pinkFlower_1_Height);
+            pinkFlower_1.x = Constants.SCREEN_WIDTH;
+            pinkFlower_1.y = MathUtils.random(0, Constants.SCREEN_HEIGHT - pinkFlower_1_Height);
             pinkFlower_1.width = pinkFlower_1_Width;
             pinkFlower_1.height = pinkFlower_1_Height;
             flowers.add(pinkFlower_1);
@@ -53,8 +54,8 @@ public class Flowers {
         }
         if (whichFlower == false) {
             Rectangle pinkFlower_1 = new Rectangle();
-            pinkFlower_1.x = Screen.SCREEN_WIDTH;
-            pinkFlower_1.y = MathUtils.random(0, Screen.SCREEN_HEIGHT - pinkFlower_2_Height);
+            pinkFlower_1.x = Constants.SCREEN_WIDTH;
+            pinkFlower_1.y = MathUtils.random(0, Constants.SCREEN_HEIGHT - pinkFlower_2_Height);
             pinkFlower_1.width = pinkFlower_2_Width;
             pinkFlower_1.height = pinkFlower_2_Height;
             flowers.add(pinkFlower_1);
