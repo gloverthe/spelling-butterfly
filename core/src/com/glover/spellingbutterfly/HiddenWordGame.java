@@ -8,6 +8,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class HiddenWordGame implements Screen {
 
@@ -20,59 +23,128 @@ public class HiddenWordGame implements Screen {
     public int questionY = 0;
     public int questionX = 0;
 
+    public String questionString;
+    public String guessOne;
+    public String guessTwo;
+    public String guessThree;
+
+    public static ArrayList<String> wordListArray = new ArrayList<>();
+    public static ArrayList<String> questionAndAnswer = new ArrayList<>();
+
+
+
     public HiddenWordGame (final SpellingButterfly playGame) {
         game = playGame;
 
-        currentWordListArray = ReadWords.wordListArray("Level_1");
-        currentWordListArrayLength = currentWordListArray.size();
+        wordListArray = ReadWords.wordListArray("Level_1");
+//        wordListArrayLength = currentWordListArray.size();
+
+//        wordListArray= readWords();
+//        wordListArray.forEach(System.out::println);
+
+//        hideWord(wordListArray).forEach(System.out::println);
+        questionAndAnswer = hideWord(wordListArray);
+
+//        questionAndAnswer.forEach(System.out::println);
+
+        Integer[] intArray = { 1, 2 ,3 };
+        List<Integer> intList = Arrays.asList(intArray);
+        Collections.shuffle(intList);
+        intList.toArray(intArray);
+
+
+        System.out.println(Arrays.toString(intArray));
+        System.out.println("Can you find the word: " + questionAndAnswer.get(0));
+        System.out.println("Word 1: " + questionAndAnswer.get(intArray[0]));
+        System.out.println("Word 2: " + questionAndAnswer.get(intArray[1]));
+        System.out.println("Word 3: " + questionAndAnswer.get(intArray[2]));
+
+        questionString = questionAndAnswer.get(0);
+        guessOne = questionAndAnswer.get(intArray[0]);
+        guessTwo = questionAndAnswer.get(intArray[1]);
+        guessThree = questionAndAnswer.get(intArray[2]);
+
 
     }
 
-    public String[] hideWord() {
+    public static ArrayList<String> hideWord(ArrayList<String> currentWordListArray) {
+
+        int currentWordListArrayLength = currentWordListArray.size();
+        int randomWordPos = (int) ((Math.random() * (currentWordListArrayLength)) + 0);
 
         String[] alphabet = "abcdefghijklmnopqrstuvwxyz".split("(?!^)");
         int questionLength = 10;
-        int randomWordPos = MathUtils.random(0, currentWordListArrayLength);
         String[] randomWord = currentWordListArray.get(randomWordPos).split("(?!^)");
         String randomWordString = currentWordListArray.get(randomWordPos);
+        currentWordListArray.remove(randomWordPos);
+        currentWordListArrayLength -- ;
         int randomWordLength = randomWord.length;
-        int randomWordStartPos = MathUtils.random(0, questionLength - randomWordLength);
+        int randomWordStartPos = (int) ((Math.random() * ((questionLength - randomWordLength))) + 0);
+//        System.out.println("Word Length " + randomWordLength);
+//        System.out.println(("Word Start pos " + randomWordStartPos));
+
         int i = 0;
         int j = 0;
-        StringBuilder hiddenWord = null;
+        StringBuilder hiddenWord = new StringBuilder("");
         while (i < 10) {
-            if(i < randomWordStartPos && i > randomWordStartPos + randomWordLength) {
-                hiddenWord.append(alphabet[MathUtils.random(0, 25)]);
-            }
-            else {
+            if (i < randomWordStartPos || i > randomWordStartPos + (randomWordLength-1)) {
+                int z = (int) ((Math.random() * (25 - 0)) + 0);
+                hiddenWord.append(alphabet[z]);
+            } else {
                 hiddenWord.append(randomWord[j]);
-                j ++;
+                j++;
             }
-            i ++;
+            i++;
+//            System.out.println(hiddenWord.toString());
         }
-//        String hiddenWordOur = toString(hiddenWord);
-        String[] questionAndAnswer = {hiddenWord.toString(),
-                            currentWordListArray.get(MathUtils.random(0, currentWordListArrayLength)),
-                            randomWordString,
-                            currentWordListArray.get(MathUtils.random(0, currentWordListArrayLength))
-        };
+//        String hiddenWordOut = hiddenWord.toString();
 
+        int guessOneInt = (int) ((Math.random() * (currentWordListArrayLength)) + 0);
+        String guessOne = currentWordListArray.get(guessOneInt);
+        currentWordListArray.remove(guessOneInt);
+        currentWordListArrayLength --;
+        int guessTwoInt = (int) ((Math.random() * (currentWordListArrayLength)) + 0);
+        String guessTwo = currentWordListArray.get(guessTwoInt);
+        currentWordListArray.remove(guessTwoInt);
+//        currentWordListArrayLength --;
 
-//        0 1 2 3 4 5 6 7 8 9
-//          r a t
-
-//        System.out.println("The word is "+ randomWord);
-//        questionAndAnswer[0] =
-
-
+        ArrayList<String> questionAndAnswer = new ArrayList<>();
+        questionAndAnswer.add(hiddenWord.toString());
+        questionAndAnswer.add(randomWordString);
+        questionAndAnswer.add(guessOne);
+        questionAndAnswer.add(guessTwo);
         return questionAndAnswer;
     }
 
 
+//    public void hideWordsToStrings() {
+////      Convert the results of the hideWord method to strings to render
+//        for (int i = 0; i < hideWord().length; i++) {
+//            if (i == 0) {
+//                questionString = hideWord()[i];
+//            }
+//            if (i == 1) {
+//                guessOne = hideWord()[i];
+//            }
+//            if (i == 2) {
+//                guessTwo = hideWord()[i];
+//            }
+//            if (i == 3) {
+//                guessThree = hideWord()[i];
+//            }
+//        }
+//
+//
+//    }
+
 
         @Override
         public void render(float delta) {
-        String randomWord;
+
+//        hideWordsToStrings();
+
+
+//        String randomWord;
 
 //            ScreenUtils.clear(0, 0, 0.2f, 1);
 
@@ -84,14 +156,16 @@ public class HiddenWordGame implements Screen {
 
             game.batch.begin();
             game.font.draw(game.batch, "Find the word: ", 100, 1100);
-            game.font.draw(game.batch, hideWord()[0], 100, 1000);
-            game.font.draw(game.batch, hideWord()[1] + "   " + hideWord()[2] + "   " + hideWord()[3], 100, 800);
+            game.font.draw(game.batch, questionString , 100, 1000);
+            game.font.draw(game.batch, guessOne + "   " + guessTwo + "   " + guessThree, 100, 800);
+//            System.out.println(hideWord()[0]);
+//            System.out.println(guessOne);
             game.batch.end();
 
-//            if (Gdx.input.isTouched()) {
-//                game.setScreen(new GameScreen(game));
-//                dispose();
-//            }
+            if (Gdx.input.isTouched()) {
+//                game.setScreen(MainGame(game));
+                dispose();
+            }
         }
 
     @Override
