@@ -41,16 +41,13 @@ public class MainGame implements Screen {
         camera.setToOrtho(false,  com.glover.spellingbutterfly.Constants.SCREEN_WIDTH , com.glover.spellingbutterfly.Constants.SCREEN_HEIGHT);
 
 
+
     }
     @Override
     public void render(float delta) {
 
         float deltaTime = Gdx.graphics.getDeltaTime();
         Butterfly.butterflyStateTime += deltaTime;
-
-
-
-
 
 
 //		Render Background
@@ -123,6 +120,8 @@ public class MainGame implements Screen {
                 totalScore += Flowers.FLOWER_POINTS;
                 if(flowerCounter % 1 == 0) {
                     game.setScreen(new HiddenWordGame(game));
+
+//                    game.setScreen(game.hiddenWordGame);
 //                    System.out.println("Spell a word");
 //                    randomWord = currentWordListArray.get(MathUtils.random(0, currentWordListArrayLength));
 //                    System.out.println("The word is "+ randomWord);
@@ -137,6 +136,7 @@ public class MainGame implements Screen {
     public void resize(int width, int height) {
     }
 
+
     @Override
     public void show() {
     }
@@ -147,21 +147,18 @@ public class MainGame implements Screen {
 
     @Override
     public void pause() {
+
     }
 
     @Override
     public void resume() {
+        this.show();
+        this.render(Gdx.graphics.getDeltaTime());
     }
 
     @Override
     public void dispose () {
-        Background.flowerBackground1.dispose();
-        Background.flowerBackground2.dispose();
-        Flowers.pinkFlower_1_Sprite.dispose();
-        Flowers.pinkFlower_2_Sprite.dispose();
-        Butterfly.butterflySprite_1.dispose();
-        Butterfly.butterflySprite_2.dispose();
-        Butterfly.butterflySprite_3.dispose();
+
 
     }
 

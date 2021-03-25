@@ -7,10 +7,11 @@ import com.badlogic.gdx.Game;
 
 
 
-
 public class SpellingButterfly extends Game {
 	SpriteBatch batch;
 	BitmapFont font;
+	MainGame mainGame;
+	HiddenWordGame hiddenWordGame;
 
 	public void create() {
 		batch = new SpriteBatch();
@@ -18,7 +19,12 @@ public class SpellingButterfly extends Game {
 		font = new BitmapFont(); // use libGDX's default Arial font
 		font.getData().setScale(6, 6);
 		batch = new SpriteBatch();
-		this.setScreen(new MainGame(this));
+
+		mainGame = new MainGame(this);
+//		hiddenWordGame = new HiddenWordGame(this);
+
+		setScreen(mainGame);
+
 	}
 
 	public void render() {
@@ -28,6 +34,13 @@ public class SpellingButterfly extends Game {
 	public void dispose() {
 		batch.dispose();
 		font.dispose();
+		Background.flowerBackground1.dispose();
+		Background.flowerBackground2.dispose();
+		Flowers.pinkFlower_1_Sprite.dispose();
+		Flowers.pinkFlower_2_Sprite.dispose();
+		Butterfly.butterflySprite_1.dispose();
+		Butterfly.butterflySprite_2.dispose();
+		Butterfly.butterflySprite_3.dispose();
 	}
 
 }

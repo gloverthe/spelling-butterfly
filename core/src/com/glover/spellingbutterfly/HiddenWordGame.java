@@ -19,7 +19,7 @@ public class HiddenWordGame implements Screen {
     private SpriteBatch batch;
     private OrthographicCamera camera;
     private ArrayList<String> currentWordListArray = new ArrayList<>();
-    private int currentWordListArrayLength;
+    private int wordListArrayLength;
     public int questionY = 0;
     public int questionX = 0;
 
@@ -37,7 +37,7 @@ public class HiddenWordGame implements Screen {
         game = playGame;
 
         wordListArray = ReadWords.wordListArray("Level_1");
-//        wordListArrayLength = currentWordListArray.size();
+        wordListArrayLength = currentWordListArray.size();
 
 //        wordListArray= readWords();
 //        wordListArray.forEach(System.out::println);
@@ -52,7 +52,7 @@ public class HiddenWordGame implements Screen {
         Collections.shuffle(intList);
         intList.toArray(intArray);
 
-
+        System.out.println("Last word : " + wordListArray.get(wordListArrayLength));
         System.out.println(Arrays.toString(intArray));
         System.out.println("Can you find the word: " + questionAndAnswer.get(0));
         System.out.println("Word 1: " + questionAndAnswer.get(intArray[0]));
@@ -71,6 +71,7 @@ public class HiddenWordGame implements Screen {
 
         int currentWordListArrayLength = currentWordListArray.size();
         int randomWordPos = (int) ((Math.random() * (currentWordListArrayLength)) + 0);
+
 
         String[] alphabet = "abcdefghijklmnopqrstuvwxyz".split("(?!^)");
         int questionLength = 10;
@@ -163,7 +164,7 @@ public class HiddenWordGame implements Screen {
             game.batch.end();
 
             if (Gdx.input.isTouched()) {
-//                game.setScreen(MainGame(game));
+                game.setScreen(game.mainGame);
                 dispose();
             }
         }
@@ -174,6 +175,7 @@ public class HiddenWordGame implements Screen {
 
     @Override
     public void show() {
+
     }
 
     @Override
