@@ -107,7 +107,7 @@ public class MainGame implements Screen {
 
         for (Iterator<Rectangle> iter = Flowers.flowers.iterator(); iter.hasNext(); ) {
             Rectangle pinkFlower_1 = iter.next();
-            pinkFlower_1.x -= 200 * Gdx.graphics.getDeltaTime();
+            pinkFlower_1.x -= 400 * Gdx.graphics.getDeltaTime();
             if(pinkFlower_1.x  < ( - Flowers.pinkFlower_1_Width)) {
                 iter.remove();
                 totalScore--;

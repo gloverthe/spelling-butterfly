@@ -2,10 +2,10 @@ package com.glover.spellingbutterfly;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.math.MathUtils;
+//import com.badlogic.gdx.math.MathUtils;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+//import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -24,9 +24,7 @@ public class ReadWords {
             e.printStackTrace();
         }
         return wordListArray;
-        //       result.forEach(System.out::println);
-//        System.out.println(result.get(4));
-//        System.out.println(result.get(5));
+
     }
 
 
