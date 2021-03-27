@@ -51,11 +51,11 @@ public class MainGame implements Screen {
 
 
 //		Render Background
-        Background.xCoordBg1 += Background.BACKGROUND_MOVE_SPEED * Gdx.graphics.getDeltaTime();
-        Background.xCoordBg2 = Background.xCoordBg1 + Background.xMax;  // We move the background, not the camera
-        if (Background.xCoordBg1 <= - com.glover.spellingbutterfly.Constants.SCREEN_WIDTH ) {
-            Background.xCoordBg1 = Background.xMin; Background.xCoordBg2 = com.glover.spellingbutterfly.Constants.SCREEN_WIDTH;
-        }
+//        Background.xCoordBg1 += Background.BACKGROUND_MOVE_SPEED * Gdx.graphics.getDeltaTime();
+//        Background.xCoordBg2 = Background.xCoordBg1 + Background.xMax;  // We move the background, not the camera
+//        if (Background.xCoordBg1 <= - com.glover.spellingbutterfly.Constants.SCREEN_WIDTH ) {
+//            Background.xCoordBg1 = Background.xMin; Background.xCoordBg2 = com.glover.spellingbutterfly.Constants.SCREEN_WIDTH;
+//        }
 
 
         game.batch.setProjectionMatrix(camera.combined);
@@ -67,8 +67,17 @@ public class MainGame implements Screen {
         game.batch.draw(Butterfly.butterflySprite.getKeyFrame(Butterfly.butterflyStateTime), Butterfly.butterfly.x, Butterfly.butterfly.y);
 
 
-        for(Rectangle pinkFlower_1: Flowers.flowers) {
-            game.batch.draw(Flowers.flowerToDraw, pinkFlower_1.x, pinkFlower_1.y);
+//        for(Rectangle pinkFlower_1: Flowers.flowers) {
+//            game.batch.draw(Flowers.flowerSprites.get(0), pinkFlower_1.x, pinkFlower_1.y);
+//        }
+        System.out.println("Flower = " + Flowers.flowers.size);
+        System.out.println("Flower Sprites = " + Flowers.flowerSprites.size());
+        for(int i = 0; Flowers.flowerSprites.size() > i; i ++) {
+//            System.out.println("tried to shower flower");
+            game.batch.draw(Flowers.flowerSprites.get(i),  Flowers.flowers.get(i).x, Flowers.flowers.get(i).y);
+//            game.batch.draw(Flowers.pinkFlower_1_Sprite,  Flowers.flowers.get(i).x, Flowers.flowers.get(i).y);
+            System.out.println("tried to shower flower, details : " + Flowers.flowerSprites.get(i) );
+            System.out.println("tried to shower flower, details : " + Flowers.flowers.get(i).x  + " " + Flowers.flowers.get(i).y);
         }
 
 
@@ -121,31 +130,26 @@ public class MainGame implements Screen {
 //		flowers
         if(TimeUtils.nanoTime() - Flowers.lastFlowerTime > 1000000000) Flowers.spawnFlower();
 
-        for (Iterator<Rectangle> iter = Flowers.flowers.iterator(); iter.hasNext(); ) {
-            Rectangle pinkFlower_1 = iter.next();
-            pinkFlower_1.x -= 400 * Gdx.graphics.getDeltaTime();
-            if(pinkFlower_1.x  < ( - Flowers.pinkFlower_1_Width)) {
-                iter.remove();
+        for (int irate = 0; Flowers.flowerSprites.size() > irate; irate++) {
+            Flowers.flowers.get(irate).x -= 400 * Gdx.graphics.getDeltaTime();
+            if(Flowers.flowers.get(irate).x < ( - Flowers.flowerSprites.get(irate).getWidth() )) {
+                Flowers.flowers.removeIndex(irate);
+                Flowers.flowerSprites.remove(irate);
                 totalScore--;
-
             }
-
-            if(pinkFlower_1.overlaps(Butterfly.butterfly)) {
+            if(Flowers.flowers.get(irate).overlaps(Butterfly.butterfly)) {
                 Flowers.flowerPop.play();
                 flowerCounter ++;
                 totalScore += Flowers.FLOWER_POINTS;
                 if(flowerCounter % 5 == 0) {
                     game.setScreen(new HiddenWordGame(game));
-
-//                    game.setScreen(game.hiddenWordGame);
-//                    System.out.println("Spell a word");
-//                    randomWord = currentWordListArray.get(MathUtils.random(0, currentWordListArrayLength));
-//                    System.out.println("The word is "+ randomWord);
-
                 }
-                iter.remove();
+                Flowers.flowers.removeIndex(irate);
+                Flowers.flowerSprites.remove(irate);
             }
+
         }
+
 
     }
     @Override
