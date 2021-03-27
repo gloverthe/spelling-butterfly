@@ -15,6 +15,7 @@ public class SpellingButterfly extends Game {
 	BitmapFont font;
 	MainGame mainGame;
 	HiddenWordGame hiddenWordGame;
+	public static int totalScore;
 //	BitMapFont ;
 
 //	OrthographicCamera camera;

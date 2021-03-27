@@ -11,6 +11,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.sun.org.apache.xpath.internal.objects.XString;
+import com.sun.org.apache.xpath.internal.objects.XStringForChars;
 
 import javax.swing.*;
 import javax.swing.plaf.synth.SynthEditorPaneUI;
@@ -21,7 +23,7 @@ import java.util.List;
 
 public class HiddenWordGame implements Screen {
 
-    private static final int ANSWER_POINTS = 10;
+    private static final int ANSWER_POINTS = 25;
     final SpellingButterfly game;
 
 //    public static Rectangle blueTextBoxDeclare;
@@ -41,15 +43,26 @@ public class HiddenWordGame implements Screen {
 
     public static ArrayList<String> wordListArray = new ArrayList<>();
     public static ArrayList<String> questionAndAnswer = new ArrayList<>();
-
+    private String level;
 
 
     public HiddenWordGame (final SpellingButterfly playGame) {
+
+
         game = playGame;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false,  com.glover.spellingbutterfly.Constants.SCREEN_WIDTH , com.glover.spellingbutterfly.Constants.SCREEN_HEIGHT);
+        camera.setToOrtho(false,  Constants.SCREEN_WIDTH , Constants.SCREEN_HEIGHT);
 
-        wordListArray = ReadWords.wordListArray("level_1");
+       level = "level_1";
+        if(SpellingButterfly.totalScore > 100) level = "level_2";
+        if(SpellingButterfly.totalScore > 200) level = "level_3";
+        if(SpellingButterfly.totalScore > 300) level = "level_4";
+        if(SpellingButterfly.totalScore > 400) level = "level_5";
+        if(SpellingButterfly.totalScore > 500) level = "level_6";
+        if(SpellingButterfly.totalScore > 600) level = "level_7";
+
+
+        wordListArray = ReadWords.wordListArray(level);
         wordListArrayLength = currentWordListArray.size();
 
         Boxes.load();
@@ -140,7 +153,7 @@ public class HiddenWordGame implements Screen {
     public void correctAnswer() {
         Boxes.rightAnswer.play();
         game.setScreen(game.mainGame);
-        MainGame.totalScore += HiddenWordGame.ANSWER_POINTS;
+        SpellingButterfly.totalScore += HiddenWordGame.ANSWER_POINTS;
         dispose();
 
     }
@@ -181,6 +194,7 @@ public class HiddenWordGame implements Screen {
                 if (Boxes.guessBoxes.get(0).contains(touchPos.x, touchPos.y)) {
                     if (answerBox == 1) {
                         Boxes.rightAnswer.play();
+                        SpellingButterfly.totalScore += ANSWER_POINTS;
                         game.setScreen(game.mainGame);
                         dispose();
                         }
@@ -189,6 +203,7 @@ public class HiddenWordGame implements Screen {
                 if (Boxes.guessBoxes.get(1).contains(touchPos.x, touchPos.y)) {
                     if (answerBox == 2) {
                         Boxes.rightAnswer.play();
+                        SpellingButterfly.totalScore += ANSWER_POINTS;
                         game.setScreen(game.mainGame);
                         dispose();
                     }
@@ -197,6 +212,7 @@ public class HiddenWordGame implements Screen {
                 if (Boxes.guessBoxes.get(2).contains(touchPos.x, touchPos.y)) {
                     if (answerBox == 3) {
                         Boxes.rightAnswer.play();
+                        SpellingButterfly.totalScore += ANSWER_POINTS;
                         game.setScreen(game.mainGame);
                         dispose();
                     }

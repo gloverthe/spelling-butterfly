@@ -24,7 +24,7 @@ public class MainGame implements Screen {
     private OrthographicCamera camera;
 
     private int flowerCounter;
-    public static int totalScore;
+
 //    public BitmapFont font;
     private long flapTime;
 
@@ -51,18 +51,18 @@ public class MainGame implements Screen {
 
 
 //		Render Background
-//        Background.xCoordBg1 += Background.BACKGROUND_MOVE_SPEED * Gdx.graphics.getDeltaTime();
-//        Background.xCoordBg2 = Background.xCoordBg1 + Background.xMax;  // We move the background, not the camera
-//        if (Background.xCoordBg1 <= - com.glover.spellingbutterfly.Constants.SCREEN_WIDTH ) {
-//            Background.xCoordBg1 = Background.xMin; Background.xCoordBg2 = com.glover.spellingbutterfly.Constants.SCREEN_WIDTH;
-//        }
+        Background.xCoordBg1 += Background.BACKGROUND_MOVE_SPEED * Gdx.graphics.getDeltaTime();
+        Background.xCoordBg2 = Background.xCoordBg1 + Background.xMax;  // We move the background, not the camera
+        if (Background.xCoordBg1 <= - com.glover.spellingbutterfly.Constants.SCREEN_WIDTH ) {
+            Background.xCoordBg1 = Background.xMin; Background.xCoordBg2 = com.glover.spellingbutterfly.Constants.SCREEN_WIDTH;
+        }
 
 
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
         game.batch.draw(Background.flowerBackground1, Background.xCoordBg1, 0);
         game.batch.draw(Background.flowerBackground2, Background.xCoordBg2, 0);
-        game.font.draw(game.batch, "Score: " + totalScore, 1500, 70);
+        game.font.draw(game.batch, "Score: " + SpellingButterfly.totalScore, 1450, 70);
 //        game.batch.draw(Butterfly.butterflySprite.getKeyFrame(Butterfly.butterflyStateTime), Butterfly.butterfly.x, Butterfly.butterfly.y);
         game.batch.draw(Butterfly.butterflySprite.getKeyFrame(Butterfly.butterflyStateTime), Butterfly.butterfly.x, Butterfly.butterfly.y);
 
@@ -135,12 +135,12 @@ public class MainGame implements Screen {
             if(Flowers.flowers.get(irate).x < ( - Flowers.flowerSprites.get(irate).getWidth() )) {
                 Flowers.flowers.removeIndex(irate);
                 Flowers.flowerSprites.remove(irate);
-                totalScore--;
+                SpellingButterfly.totalScore--;
             }
             if(Flowers.flowers.get(irate).overlaps(Butterfly.butterfly)) {
                 Flowers.flowerPop.play();
                 flowerCounter ++;
-                totalScore += Flowers.FLOWER_POINTS;
+                SpellingButterfly.totalScore += Flowers.FLOWER_POINTS;
                 if(flowerCounter % 5 == 0) {
                     game.setScreen(new HiddenWordGame(game));
                 }
