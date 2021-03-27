@@ -48,7 +48,7 @@ public class HiddenWordGame implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false,  com.glover.spellingbutterfly.Constants.SCREEN_WIDTH , com.glover.spellingbutterfly.Constants.SCREEN_HEIGHT);
 
-        wordListArray = ReadWords.wordListArray("Level_1");
+        wordListArray = ReadWords.wordListArray("level_1");
         wordListArrayLength = currentWordListArray.size();
 
         Boxes.load();
@@ -164,8 +164,8 @@ public class HiddenWordGame implements Screen {
             }
 //            game.batch.draw(Boxes.guessBox, Boxes.guessBoxes.get(0).x,
 
-            game.font.draw(game.batch, "Which word can you see? ", (960 - 500) + 5, 960 + 30);
-            game.font.draw(game.batch, questionString, 960 - 190, 665);
+            game.font.draw(game.batch, "Which word can you see? ", (960 - 580) + 5, 960 + 30);
+            game.font.draw(game.batch, questionString, 960 - 215, 665);
 
             game.font.draw(game.batch, guessOne, 480 - 60, 410);
             game.font.draw(game.batch, guessTwo, 960 - 60, 410);

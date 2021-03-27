@@ -1,11 +1,13 @@
 package com.glover.spellingbutterfly;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+//import com.badlogic.gdx.;
 
 
 public class SpellingButterfly extends Game {
@@ -13,14 +15,24 @@ public class SpellingButterfly extends Game {
 	BitmapFont font;
 	MainGame mainGame;
 	HiddenWordGame hiddenWordGame;
+//	BitMapFont ;
+
 //	OrthographicCamera camera;
 
 
 	public void create() {
 		batch = new SpriteBatch();
 //		 Use LibGDX's default Arial font.
-		font = new BitmapFont(); // use libGDX's default Arial font
-		font.getData().setScale(6, 6);
+
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Montserrat-Regular.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter.size = 90;
+		font = generator.generateFont(parameter);
+		generator.dispose();
+
+
+//		font = new BitmapFont(); // use libGDX's default Arial font
+//		font.getData().setScale(6, 6);
 //		batch = new SpriteBatch();
 
 		mainGame = new MainGame(this);

@@ -14,6 +14,10 @@ public class ReadWords {
 
     public static ArrayList<String> wordListArray(String filename) {
         ArrayList<String> wordListArray = new ArrayList<>();
+        if ((Gdx.files.internal("WordLists/" + filename + ".txt").exists() ) )
+                System.out.println("File is there");
+        else System.out.println("Can't see the file");
+
         FileHandle file = Gdx.files.internal("WordLists/" + filename + ".txt");
         try {
             BufferedReader br = new BufferedReader(file.reader());
@@ -24,9 +28,5 @@ public class ReadWords {
             e.printStackTrace();
         }
         return wordListArray;
-
     }
-
-
-
 }
