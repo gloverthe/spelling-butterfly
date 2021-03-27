@@ -21,6 +21,7 @@ import java.util.List;
 
 public class HiddenWordGame implements Screen {
 
+    private static final int ANSWER_POINTS = 10;
     final SpellingButterfly game;
 
 //    public static Rectangle blueTextBoxDeclare;
@@ -54,17 +55,7 @@ public class HiddenWordGame implements Screen {
         Boxes.load();
 
 
-//         Boxes.blueTextBox_300x150(100,100);
-
-
-
-//        wordListArray= readWords();
-//        wordListArray.forEach(System.out::println);
-
-//        hideWord(wordListArray).forEach(System.out::println);
         questionAndAnswer = hideWord(wordListArray);
-
-//        questionAndAnswer.forEach(System.out::println);
 
         Integer[] intArray = { 1, 2 ,3 };
         List<Integer> intList = Arrays.asList(intArray);
@@ -127,24 +118,32 @@ public class HiddenWordGame implements Screen {
         }
 //        String hiddenWordOut = hiddenWord.toString();
 
-        int guessOneInt = (int) ((Math.random() * (currentWordListArrayLength)) + 0);
+        int guessOneInt = (int) ((Math.random() * (currentWordListArrayLength-1)) + 0);
+        System.out.println("Guess 1 int is : " + guessOneInt);
         String guessOne = currentWordListArray.get(guessOneInt);
         currentWordListArray.remove(guessOneInt);
         currentWordListArrayLength --;
-        int guessTwoInt = (int) ((Math.random() * (currentWordListArrayLength)) + 0);
+        int guessTwoInt = (int) ((Math.random() * (currentWordListArrayLength-1)) + 0);
+        System.out.println("Guess 2 int is : " + guessTwoInt);
         String guessTwo = currentWordListArray.get(guessTwoInt);
         currentWordListArray.remove(guessTwoInt);
 //        currentWordListArrayLength --;
 
         ArrayList<String> questionAndAnswer = new ArrayList<>();
-        questionAndAnswer.add(hiddenWord.toString());
-        questionAndAnswer.add(randomWordString);
-        questionAndAnswer.add(guessOne);
-        questionAndAnswer.add(guessTwo);
+        questionAndAnswer.add((hiddenWord.toString()).trim());
+        questionAndAnswer.add(randomWordString.trim());
+        questionAndAnswer.add(guessOne.trim());
+        questionAndAnswer.add(guessTwo.trim());
         return questionAndAnswer;
     }
 
+    public void correctAnswer() {
+        Boxes.rightAnswer.play();
+        game.setScreen(game.mainGame);
+        MainGame.totalScore += HiddenWordGame.ANSWER_POINTS;
+        dispose();
 
+    }
 
         @Override
         public void render(float delta) {
@@ -165,7 +164,7 @@ public class HiddenWordGame implements Screen {
 //            game.batch.draw(Boxes.guessBox, Boxes.guessBoxes.get(0).x,
 
             game.font.draw(game.batch, "Which word can you see? ", (960 - 580) + 5, 960 + 30);
-            game.font.draw(game.batch, questionString, 960 - 215, 665);
+            game.font.draw(game.batch, questionString, 960 - 225, 665);
 
             game.font.draw(game.batch, guessOne, 480 - 60, 410);
             game.font.draw(game.batch, guessTwo, 960 - 60, 410);
@@ -179,20 +178,43 @@ public class HiddenWordGame implements Screen {
                 touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
                 System.out.println("X coord = " + Gdx.input.getX() + ", Y coord = " + Gdx.input.getY());
                 camera.unproject(touchPos);
-                if (answerBox == 1 && Boxes.guessBoxes.get(0).contains(touchPos.x, touchPos.y)) {
+                if (Boxes.guessBoxes.get(0).contains(touchPos.x, touchPos.y)) {
+                    if (answerBox == 1) {
+                        Boxes.rightAnswer.play();
+                        game.setScreen(game.mainGame);
+                        dispose();
+                        }
+                    else Boxes.wrongAnswer.play();
+                    }
+                if (Boxes.guessBoxes.get(1).contains(touchPos.x, touchPos.y)) {
+                    if (answerBox == 2) {
+                        Boxes.rightAnswer.play();
                         game.setScreen(game.mainGame);
                         dispose();
                     }
-                if (answerBox == 2 && Boxes.guessBoxes.get(1).contains(touchPos.x, touchPos.y)) {
-                        game.setScreen(game.mainGame);
-                        dispose();
-                    }
-                if (answerBox == 3 && Boxes.guessBoxes.get(2).contains(touchPos.x, touchPos.y)) {
-                        game.setScreen(game.mainGame);
-                        dispose();
-                    }
+                    else Boxes.wrongAnswer.play();
                 }
-            }
+                if (Boxes.guessBoxes.get(2).contains(touchPos.x, touchPos.y)) {
+                    if (answerBox == 3) {
+                        Boxes.rightAnswer.play();
+                        game.setScreen(game.mainGame);
+                        dispose();
+                    }
+                    else Boxes.wrongAnswer.play();
+                }
+//                else if (answerBox == 2 && Boxes.guessBoxes.get(1).contains(touchPos.x, touchPos.y)) {
+//                        Boxes.rightAnswer.play();
+//                        game.setScreen(game.mainGame);
+//                        dispose();
+//                    }
+//                else if (answerBox == 3 && Boxes.guessBoxes.get(2).contains(touchPos.x, touchPos.y)) {
+//                        Boxes.rightAnswer.play();
+//                        game.setScreen(game.mainGame);
+//                        dispose();
+                    }
+
+                }
+
 
 
 

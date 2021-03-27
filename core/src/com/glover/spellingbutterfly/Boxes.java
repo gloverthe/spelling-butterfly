@@ -1,6 +1,7 @@
 package com.glover.spellingbutterfly;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
@@ -10,6 +11,9 @@ public class Boxes {
     //	Background images
     public static Texture blueTextBox;
     public static Rectangle blueTextBoxDeclare;
+    public static Sound rightAnswer;
+    public static Sound wrongAnswer;
+
 
     public static Texture blueTextBox_600x150;
     public static Rectangle blueTextBoxDeclare_600x150;
@@ -19,6 +23,11 @@ public class Boxes {
 //   public static Rectangle guessBoxOneDelcare;
 
     public static void load() {
+
+        //box press sounds
+        rightAnswer = Gdx.audio.newSound(Gdx.files.internal("sounds/yay.wav"));
+        wrongAnswer = Gdx.audio.newSound(Gdx.files.internal("sounds/wrongAnswer.wav"));
+
         blueTextBox = new Texture(Gdx.files.internal("blueTextBox_1200x150.png"));
         blueTextBoxDeclare = new Rectangle();
 
@@ -29,13 +38,13 @@ public class Boxes {
         blueTextBoxDeclare.height = 150;
 
 
-        blueTextBox_600x150 = new Texture(Gdx.files.internal("blueTextBox_600x150.png"));
+        blueTextBox_600x150 = new Texture(Gdx.files.internal("blueTextBox_800x150.png"));
         blueTextBoxDeclare_600x150 = new Rectangle();
 
 
-        blueTextBoxDeclare_600x150.x = 960 -300;
+        blueTextBoxDeclare_600x150.x = 960 -400;
         blueTextBoxDeclare_600x150.y = 640 -75 ;
-        blueTextBoxDeclare_600x150.width = 600;
+        blueTextBoxDeclare_600x150.width = 800;
         blueTextBoxDeclare_600x150.height = 150;
 
         guessBox = new Texture(Gdx.files.internal("blueTextBox_300x150.png"));

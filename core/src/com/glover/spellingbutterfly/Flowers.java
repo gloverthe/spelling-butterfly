@@ -27,7 +27,7 @@ public class Flowers {
     public static void load() {
 
 
-        flowerPop = Gdx.audio.newSound(Gdx.files.internal("pop.wav"));
+        flowerPop = Gdx.audio.newSound(Gdx.files.internal("sounds/pop.wav"));
 
 //		create the flowers
         pinkFlower_1_Sprite	= new Texture(Gdx.files.internal("pinkFlower_2.png"));

@@ -18,7 +18,7 @@ public class ReadWords {
                 System.out.println("File is there");
         else System.out.println("Can't see the file");
 
-        FileHandle file = Gdx.files.internal("WordLists/" + filename + ".txt");
+        FileHandle file = Gdx.files.internal("wordLists/" + filename + ".txt");
         try {
             BufferedReader br = new BufferedReader(file.reader());
             while (br.ready()) {

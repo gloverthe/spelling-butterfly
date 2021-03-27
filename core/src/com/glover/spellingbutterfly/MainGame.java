@@ -24,7 +24,7 @@ public class MainGame implements Screen {
     private OrthographicCamera camera;
 
     private int flowerCounter;
-    private int totalScore;
+    public static int totalScore;
 //    public BitmapFont font;
     private long flapTime;
 
@@ -63,11 +63,14 @@ public class MainGame implements Screen {
         game.batch.draw(Background.flowerBackground1, Background.xCoordBg1, 0);
         game.batch.draw(Background.flowerBackground2, Background.xCoordBg2, 0);
         game.font.draw(game.batch, "Score: " + totalScore, 1500, 70);
+//        game.batch.draw(Butterfly.butterflySprite.getKeyFrame(Butterfly.butterflyStateTime), Butterfly.butterfly.x, Butterfly.butterfly.y);
         game.batch.draw(Butterfly.butterflySprite.getKeyFrame(Butterfly.butterflyStateTime), Butterfly.butterfly.x, Butterfly.butterfly.y);
+
 
         for(Rectangle pinkFlower_1: Flowers.flowers) {
             game.batch.draw(Flowers.flowerToDraw, pinkFlower_1.x, pinkFlower_1.y);
         }
+
 
 //		DEBUG LINEs
 //		System.out.println("X BG1 = " + xCoordBg1 + ", X BG2 = " + xCoordBg2);
@@ -75,21 +78,31 @@ public class MainGame implements Screen {
 //		System.out.println(("Total Score: " + totalScore));
         game.batch.end();
 
-        if(Gdx.input.isTouched()) {
+        if(Gdx.input.justTouched()) {
             //need to fix input so touch does not send it crazy
 //			Vector3 touchPos = new Vector3();
 //			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 //			camera.unproject(touchPos);
 //			butterfly.y = touchPos.y - (190 / 2);
 
-            Butterfly.butterfly.y += 2000 * Gdx.graphics.getDeltaTime();
+            Butterfly.butterfly.y += 3000 * Gdx.graphics.getDeltaTime();
             if (TimeUtils.nanoTime() - flapTime> 100000000) {
                 Butterfly.wingFlap.play();
                 flapTime = TimeUtils.nanoTime();
             }
         }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.UP)) Butterfly.butterfly.y += 200 * Gdx.graphics.getDeltaTime();
+//        if(Gdx.input.isTouched()) {
+//
+//            Butterfly.butterflyPosition.set(Butterfly.BUTTERFLY_VELOCITY_Y, Butterfly.BUTTERFLY_IMPULSE);
+//            if (TimeUtils.nanoTime() - flapTime> 100000000) {
+//                Butterfly.wingFlap.play();
+//                flapTime = TimeUtils.nanoTime();
+//            }
+//        }
+
+
+        if(Gdx.input.isKeyPressed(Input.Keys.UP)) Butterfly.butterfly.x += 200 * Gdx.graphics.getDeltaTime();
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) Butterfly.butterfly.y -= 200 * Gdx.graphics.getDeltaTime();
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
@@ -97,9 +110,12 @@ public class MainGame implements Screen {
             Butterfly.wingFlap.play();
         }
 
+//        Butterfly.butterflyVelocity.add(Butterfly.gravity);
+//        Butterfly.butterflyPosition.mulAdd(Butterfly.butterflyVelocity, deltaTime);
+
         Butterfly.butterfly.y += -150 * Gdx.graphics.getDeltaTime();
         if(Butterfly.butterfly.y < 0) Butterfly.butterfly.y = 0;
-        if(Butterfly.butterfly.y > com.glover.spellingbutterfly.Constants.SCREEN_HEIGHT - 190) Butterfly.butterfly.y =  com.glover.spellingbutterfly.Constants.SCREEN_HEIGHT - 190;
+        if(Butterfly.butterfly.y > Constants.SCREEN_HEIGHT - 190) Butterfly.butterfly.y =  Constants.SCREEN_HEIGHT - 190;
 
 
 //		flowers
@@ -118,7 +134,7 @@ public class MainGame implements Screen {
                 Flowers.flowerPop.play();
                 flowerCounter ++;
                 totalScore += Flowers.FLOWER_POINTS;
-                if(flowerCounter % 1 == 0) {
+                if(flowerCounter % 5 == 0) {
                     game.setScreen(new HiddenWordGame(game));
 
 //                    game.setScreen(game.hiddenWordGame);
