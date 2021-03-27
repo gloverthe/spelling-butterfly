@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class Butterfly {
-    public static final float BUTTERFLY_IMPULSE = 350;
+    public static final float BUTTERFLY_IMPULSE = 3500;
     public static final float GRAVITY = -20;
     public static final float BUTTERFLY_VELOCITY_Y = 200;
     public static final int BUTTERFLY_FALL_SPEED = -110;

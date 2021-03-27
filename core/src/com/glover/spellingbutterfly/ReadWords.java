@@ -14,9 +14,9 @@ public class ReadWords {
 
     public static ArrayList<String> wordListArray(String filename) {
         ArrayList<String> wordListArray = new ArrayList<>();
-        if ((Gdx.files.internal("WordLists/" + filename + ".txt").exists() ) )
-                System.out.println("File is there");
-        else System.out.println("Can't see the file");
+//        if ((Gdx.files.internal("WordLists/" + filename + ".txt").exists() ) )
+//                System.out.println("File is there");
+//        else System.out.println("Can't see the file");
 
         FileHandle file = Gdx.files.internal("wordLists/" + filename + ".txt");
         try {

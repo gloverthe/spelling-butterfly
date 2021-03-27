@@ -30,22 +30,24 @@ public class Boxes {
 
         blueTextBox = new Texture(Gdx.files.internal("blueTextBox_1200x150.png"));
         blueTextBoxDeclare = new Rectangle();
-
-
-        blueTextBoxDeclare.x = 960 -600;
-        blueTextBoxDeclare.y = 960 -60 ;
         blueTextBoxDeclare.width = 1200;
         blueTextBoxDeclare.height = 150;
+
+        blueTextBoxDeclare.x = (Constants.SCREEN_WIDTH / 2) - (blueTextBoxDeclare.width / 2);
+        blueTextBoxDeclare.y = (Constants.SCREEN_HEIGHT - ((Constants.SCREEN_HEIGHT / 3)- 60) );
+
 
 
         blueTextBox_600x150 = new Texture(Gdx.files.internal("blueTextBox_800x150.png"));
         blueTextBoxDeclare_600x150 = new Rectangle();
 
-
-        blueTextBoxDeclare_600x150.x = 960 -400;
-        blueTextBoxDeclare_600x150.y = 640 -75 ;
         blueTextBoxDeclare_600x150.width = 800;
         blueTextBoxDeclare_600x150.height = 150;
+        blueTextBoxDeclare_600x150.x = (Constants.SCREEN_WIDTH / 2) - (blueTextBoxDeclare_600x150.width / 2);
+        blueTextBoxDeclare_600x150.y = (Constants.SCREEN_HEIGHT - (Constants.SCREEN_HEIGHT / 2))- 60 ;
+//        blueTextBoxDeclare_600x150.x = 960 -400;
+//        blueTextBoxDeclare_600x150.y = 640 -75 ;
+
 
         guessBox = new Texture(Gdx.files.internal("blueTextBox_300x150.png"));
 

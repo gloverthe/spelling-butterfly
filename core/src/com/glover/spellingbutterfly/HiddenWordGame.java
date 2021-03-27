@@ -3,19 +3,11 @@ package com.glover.spellingbutterfly;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.sun.org.apache.xpath.internal.objects.XString;
-import com.sun.org.apache.xpath.internal.objects.XStringForChars;
 
-import javax.swing.*;
-import javax.swing.plaf.synth.SynthEditorPaneUI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -92,7 +84,7 @@ public class HiddenWordGame implements Screen {
         if (intArray[1] == 1) answerBox = 2;
         if (intArray[2] == 1) answerBox = 3;
 
-        System.out.println( "The answer is in box : " + answerBox);
+//        System.out.println( "The answer is in box : " + answerBox);
 
 
 
@@ -101,7 +93,7 @@ public class HiddenWordGame implements Screen {
     public static ArrayList<String> hideWord(ArrayList<String> currentWordListArray) {
 
         int currentWordListArrayLength = currentWordListArray.size();
-        int randomWordPos = (int) ((Math.random() * (currentWordListArrayLength)) + 0);
+        int randomWordPos = MathUtils.random( 0 ,  currentWordListArrayLength-1);
 
 
         String[] alphabet = "abcdefghijklmnopqrstuvwxyz".split("(?!^)");
@@ -111,16 +103,16 @@ public class HiddenWordGame implements Screen {
         currentWordListArray.remove(randomWordPos);
         currentWordListArrayLength -- ;
         int randomWordLength = randomWord.length;
-        int randomWordStartPos = (int) ((Math.random() * ((questionLength - randomWordLength))) + 0);
+        int randomWordStartPos = MathUtils.random (0 , questionLength - randomWordLength);
 //        System.out.println("Word Length " + randomWordLength);
-//        System.out.println(("Word Start pos " + randomWordStartPos));
+        System.out.println(("Word Start pos " + randomWordPos));
 
         int i = 0;
         int j = 0;
         StringBuilder hiddenWord = new StringBuilder("");
         while (i < 10) {
             if (i < randomWordStartPos || i > randomWordStartPos + (randomWordLength-1)) {
-                int z = (int) ((Math.random() * (25 - 0)) + 0);
+                int z = MathUtils.random(0, 25);
                 hiddenWord.append(alphabet[z]);
             } else {
                 hiddenWord.append(randomWord[j]);
@@ -131,13 +123,13 @@ public class HiddenWordGame implements Screen {
         }
 //        String hiddenWordOut = hiddenWord.toString();
 
-        int guessOneInt = (int) ((Math.random() * (currentWordListArrayLength-1)) + 0);
-        System.out.println("Guess 1 int is : " + guessOneInt);
+        int guessOneInt = MathUtils.random(0, currentWordListArrayLength-1);
+//        System.out.println("Guess 1 int is : " + guessOneInt);
         String guessOne = currentWordListArray.get(guessOneInt);
         currentWordListArray.remove(guessOneInt);
         currentWordListArrayLength --;
-        int guessTwoInt = (int) ((Math.random() * (currentWordListArrayLength-1)) + 0);
-        System.out.println("Guess 2 int is : " + guessTwoInt);
+        int guessTwoInt = MathUtils.random(0, currentWordListArrayLength-1);
+//        System.out.println("Guess 2 int is : " + guessTwoInt);
         String guessTwo = currentWordListArray.get(guessTwoInt);
         currentWordListArray.remove(guessTwoInt);
 //        currentWordListArrayLength --;
@@ -167,7 +159,7 @@ public class HiddenWordGame implements Screen {
 
             game.batch.begin();
 
-
+            game.batch.draw(Background.flowerBackground1, Background.xCoordBg1, 0);
             game.batch.draw(Boxes.blueTextBox, Boxes.blueTextBoxDeclare.x, Boxes.blueTextBoxDeclare.y);
             game.batch.draw(Boxes.blueTextBox_600x150, Boxes.blueTextBoxDeclare_600x150.x, Boxes.blueTextBoxDeclare_600x150.y);
 //            game.batch.draw(Boxes.guessBox, Boxes.blueTextBox_300x150(300, 150));
@@ -189,7 +181,7 @@ public class HiddenWordGame implements Screen {
             if (Gdx.input.isTouched()) {
                 Vector3 touchPos = new Vector3();
                 touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-                System.out.println("X coord = " + Gdx.input.getX() + ", Y coord = " + Gdx.input.getY());
+//                System.out.println("X coord = " + Gdx.input.getX() + ", Y coord = " + Gdx.input.getY());
                 camera.unproject(touchPos);
                 if (Boxes.guessBoxes.get(0).contains(touchPos.x, touchPos.y)) {
                     if (answerBox == 1) {
@@ -218,18 +210,9 @@ public class HiddenWordGame implements Screen {
                     }
                     else Boxes.wrongAnswer.play();
                 }
-//                else if (answerBox == 2 && Boxes.guessBoxes.get(1).contains(touchPos.x, touchPos.y)) {
-//                        Boxes.rightAnswer.play();
-//                        game.setScreen(game.mainGame);
-//                        dispose();
-//                    }
-//                else if (answerBox == 3 && Boxes.guessBoxes.get(2).contains(touchPos.x, touchPos.y)) {
-//                        Boxes.rightAnswer.play();
-//                        game.setScreen(game.mainGame);
-//                        dispose();
-                    }
+            }
 
-                }
+    }
 
 
 

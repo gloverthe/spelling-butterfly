@@ -51,11 +51,7 @@ public class MainGame implements Screen {
 
 
 //		Render Background
-        Background.xCoordBg1 += Background.BACKGROUND_MOVE_SPEED * Gdx.graphics.getDeltaTime();
-        Background.xCoordBg2 = Background.xCoordBg1 + Background.xMax;  // We move the background, not the camera
-        if (Background.xCoordBg1 <= - com.glover.spellingbutterfly.Constants.SCREEN_WIDTH ) {
-            Background.xCoordBg1 = Background.xMin; Background.xCoordBg2 = com.glover.spellingbutterfly.Constants.SCREEN_WIDTH;
-        }
+        Background.renderBackground();
 
 
         game.batch.setProjectionMatrix(camera.combined);
@@ -70,8 +66,7 @@ public class MainGame implements Screen {
 //        for(Rectangle pinkFlower_1: Flowers.flowers) {
 //            game.batch.draw(Flowers.flowerSprites.get(0), pinkFlower_1.x, pinkFlower_1.y);
 //        }
-        System.out.println("Flower = " + Flowers.flowers.size);
-        System.out.println("Flower Sprites = " + Flowers.flowerSprites.size());
+//
         for(int i = 0; Flowers.flowerSprites.size() > i; i ++) {
 //            System.out.println("tried to shower flower");
             game.batch.draw(Flowers.flowerSprites.get(i),  Flowers.flowers.get(i).x, Flowers.flowers.get(i).y);
@@ -81,10 +76,7 @@ public class MainGame implements Screen {
         }
 
 
-//		DEBUG LINEs
-//		System.out.println("X BG1 = " + xCoordBg1 + ", X BG2 = " + xCoordBg2);
-//		System.out.println("Which flower is " + whichFlower + " and flowerToDraw is : " + flowerToDraw);
-//		System.out.println(("Total Score: " + totalScore));
+
         game.batch.end();
 
         if(Gdx.input.justTouched()) {
@@ -94,7 +86,7 @@ public class MainGame implements Screen {
 //			camera.unproject(touchPos);
 //			butterfly.y = touchPos.y - (190 / 2);
 
-            Butterfly.butterfly.y += 3000 * Gdx.graphics.getDeltaTime();
+            Butterfly.butterfly.y += Butterfly.BUTTERFLY_IMPULSE * Gdx.graphics.getDeltaTime();
             if (TimeUtils.nanoTime() - flapTime> 100000000) {
                 Butterfly.wingFlap.play();
                 flapTime = TimeUtils.nanoTime();
@@ -141,7 +133,7 @@ public class MainGame implements Screen {
                 Flowers.flowerPop.play();
                 flowerCounter ++;
                 SpellingButterfly.totalScore += Flowers.FLOWER_POINTS;
-                if(flowerCounter % 5 == 0) {
+                if(flowerCounter % 2 == 0) {
                     game.setScreen(new HiddenWordGame(game));
                 }
                 Flowers.flowers.removeIndex(irate);

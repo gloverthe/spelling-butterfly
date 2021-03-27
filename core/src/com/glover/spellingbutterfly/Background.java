@@ -20,4 +20,12 @@ public class Background {
 
 
     }
+
+    public static void renderBackground(){
+        Background.xCoordBg1 += Background.BACKGROUND_MOVE_SPEED * Gdx.graphics.getDeltaTime();
+        Background.xCoordBg2 = Background.xCoordBg1 + Background.xMax;  // We move the background, not the camera
+        if (Background.xCoordBg1 <= - com.glover.spellingbutterfly.Constants.SCREEN_WIDTH ) {
+            Background.xCoordBg1 = Background.xMin; Background.xCoordBg2 = com.glover.spellingbutterfly.Constants.SCREEN_WIDTH;
+        }
+    }
 }
