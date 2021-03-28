@@ -10,7 +10,7 @@ public class Background {
     public static final int BACKGROUND_MOVE_SPEED = -100; // pixels per second.
 
     public static void load() {
-        //		create background
+         //		create background
         flowerBackground1 = new Texture(Gdx.files.internal("FlowersBackground_1920x1280.jpg"));
         flowerBackground2 = new Texture(Gdx.files.internal("FlowersBackground_1920x1280.jpg")); // identical
         xMax = Constants.SCREEN_WIDTH;

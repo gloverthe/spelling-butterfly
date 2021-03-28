@@ -9,11 +9,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
-
-
-
-import java.util.ArrayList;
+import java.lang.Math;
 import java.util.Iterator;
+
 
 public class MainGame implements Screen {
 
@@ -34,6 +32,7 @@ public class MainGame implements Screen {
         Background.load();
         Butterfly.load();
         Flowers.load();
+        ButterFire.load();
 
 
 //		create camera
@@ -62,12 +61,15 @@ public class MainGame implements Screen {
 //        game.batch.draw(Butterfly.butterflySprite.getKeyFrame(Butterfly.butterflyStateTime), Butterfly.butterfly.x, Butterfly.butterfly.y);
         game.batch.draw(Butterfly.butterflySprite.getKeyFrame(Butterfly.butterflyStateTime), Butterfly.butterfly.x, Butterfly.butterfly.y);
 
-
-//        for(Rectangle pinkFlower_1: Flowers.flowers) {
-//            game.batch.draw(Flowers.flowerSprites.get(0), pinkFlower_1.x, pinkFlower_1.y);
+//        (ButterFire.butterFired.size > 0) {
+            for (Rectangle bullets : ButterFire.butterFired) {
+                game.batch.draw(ButterFire.butterFire, bullets.x, bullets.y);
+                System.out.println(("Bullets : " + bullets.x + " " + bullets.y));
+            }
 //        }
 //
         for(int i = 0; Flowers.flowerSprites.size() > i; i ++) {
+            Flowers.flowers.get(i).y = Flowers.flowers.get(i).y + (-(float)Math.cos(Flowers.flowers.get(i).x / 20) * 10);
 //            System.out.println("tried to shower flower");
             game.batch.draw(Flowers.flowerSprites.get(i),  Flowers.flowers.get(i).x, Flowers.flowers.get(i).y);
 //            game.batch.draw(Flowers.pinkFlower_1_Sprite,  Flowers.flowers.get(i).x, Flowers.flowers.get(i).y);
@@ -101,26 +103,56 @@ public class MainGame implements Screen {
 //                flapTime = TimeUtils.nanoTime();
 //            }
 //        }
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)) ButterFire.FireButterBullet(Math.round(Butterfly.butterfly.y));
 
-
-        if(Gdx.input.isKeyPressed(Input.Keys.UP)) Butterfly.butterfly.x += 200 * Gdx.graphics.getDeltaTime();
+        if(Gdx.input.isKeyPressed(Input.Keys.UP)) Butterfly.butterfly.y += 200 * Gdx.graphics.getDeltaTime();
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) Butterfly.butterfly.y -= 200 * Gdx.graphics.getDeltaTime();
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            Butterfly.butterfly.y += 2000 * Gdx.graphics.getDeltaTime();
-            Butterfly.wingFlap.play();
-        }
+//        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+//            Butterfly.butterfly.y += 2000 * Gdx.graphics.getDeltaTime();
+//            Butterfly.wingFlap.play();
+//        }
 
 //        Butterfly.butterflyVelocity.add(Butterfly.gravity);
 //        Butterfly.butterflyPosition.mulAdd(Butterfly.butterflyVelocity, deltaTime);
 
-        Butterfly.butterfly.y += -150 * Gdx.graphics.getDeltaTime();
+//        Butterfly.butterfly.y += -150 * Gdx.graphics.getDeltaTime();
         if(Butterfly.butterfly.y < 0) Butterfly.butterfly.y = 0;
         if(Butterfly.butterfly.y > Constants.SCREEN_HEIGHT - 190) Butterfly.butterfly.y =  Constants.SCREEN_HEIGHT - 190;
+
+//        if(ButterFire.butterFired.size > 0) {
+//            for (Rectangle bullets : ButterFire.butterFired) {
+//                bullets.x += 600 * Gdx.graphics.getDeltaTime();
+//            }
+//        }
+
+        Iterator<Rectangle> iter = ButterFire.butterFired.iterator();
+        while (iter.hasNext()) {
+            Rectangle bullets = iter.next();
+            bullets.x += 600 * Gdx.graphics.getDeltaTime();
+            if (bullets.x + 30 > Constants.SCREEN_WIDTH)
+                iter.remove();
+            for (int irate = 0; Flowers.flowerSprites.size() > irate; irate++) {
+                if(bullets.overlaps(Flowers.flowers.get(irate))) {
+                    Flowers.flowers.removeIndex(irate);
+                    Flowers.flowerSprites.remove(irate);
+                    Flowers.flowerPop.play();
+                    flowerCounter ++;
+
+                }
+
+            }
+//            if (raindrop.overlaps(Assets.bucket)) {
+//                dropsGathered++;
+//                Assets.dropSound.play();
+//                iter.remove();
+//            }
+        }
 
 
 //		flowers
         if(TimeUtils.nanoTime() - Flowers.lastFlowerTime > 1000000000) Flowers.spawnFlower();
+
 
         for (int irate = 0; Flowers.flowerSprites.size() > irate; irate++) {
             Flowers.flowers.get(irate).x -= 400 * Gdx.graphics.getDeltaTime();

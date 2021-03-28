@@ -83,10 +83,10 @@ public class HiddenWordGame implements Screen {
 //        System.out.println("Word 3: " + questionAndAnswer.get(intArray[2]));
 
 
-        questionString = questionAndAnswer.get(0);
-        guessOne = questionAndAnswer.get(intArray[0]);
-        guessTwo = questionAndAnswer.get(intArray[1]);
-        guessThree = questionAndAnswer.get(intArray[2]);
+        questionString = (questionAndAnswer.get(0)).trim();
+        guessOne = (questionAndAnswer.get(intArray[0])).trim();
+        guessTwo = (questionAndAnswer.get(intArray[1])).trim();
+        guessThree = (questionAndAnswer.get(intArray[2])).trim();
 
         if (intArray[0] == 1) answerBox = 1;
         if (intArray[1] == 1) answerBox = 2;
@@ -202,7 +202,7 @@ public class HiddenWordGame implements Screen {
 
             game.font.draw(game.batch, guessOne, (Constants.SCREEN_WIDTH/4)  - (guessOneGlyph.width / 2), (Constants.SCREEN_HEIGHT - ((Constants.SCREEN_HEIGHT / 4)*3) ) + ( guessOneGlyph.height / 2));
             game.font.draw(game.batch, guessTwo, ((Constants.SCREEN_WIDTH/2) - (guessTwoGlyph.width / 2)), (Constants.SCREEN_HEIGHT - ((Constants.SCREEN_HEIGHT / 4)*3) ) + ( guessTwoGlyph.height / 2));
-            game.font.draw(game.batch, guessThree, (((Constants.SCREEN_WIDTH/4)*3) - (guessThreeGlyph.width / 2))+10, (Constants.SCREEN_HEIGHT - ((Constants.SCREEN_HEIGHT / 4)*3) ) + ( guessOneGlyph.height / 2));
+            game.font.draw(game.batch, guessThree, ((Constants.SCREEN_WIDTH/4)*3) - (guessThreeGlyph.width / 2), (Constants.SCREEN_HEIGHT - ((Constants.SCREEN_HEIGHT / 4)*3) ) + ( guessThreeGlyph.height / 2));
 //            System.out.println(hideWord()[0]);
 //            System.out.println(guessOne);
             game.batch.end();

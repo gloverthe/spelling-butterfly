@@ -13,14 +13,11 @@ public class Boxes {
     public static Rectangle blueTextBoxDeclare;
     public static Sound rightAnswer;
     public static Sound wrongAnswer;
-
-
     public static Texture blueTextBox_600x150;
     public static Rectangle blueTextBoxDeclare_600x150;
     public static Array<Rectangle> guessBoxes;
-
-   public static Texture guessBox;
-   public static Texture guessBoxPressed;
+    public static Texture guessBox;
+    public static Texture guessBoxPressed;
 //   public static Rectangle guessBoxOneDelcare;
 
     public static void load() {

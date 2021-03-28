@@ -22,10 +22,10 @@ public class Flowers {
     public static Array<Rectangle> flowers;
     public static ArrayList<Texture> flowerSprites;
     public static long lastFlowerTime;
-    public static int pinkFlower_1_Height = 146;
-    public static int pinkFlower_1_Width = 110;
-    public static int pinkFlower_2_Height = 100;
-    public static int pinkFlower_2_Width = 100;
+    public static final int pinkFlower_1_Height = 146;
+    public static final int pinkFlower_1_Width = 110;
+    public static final int pinkFlower_2_Height = 100;
+    public static final int pinkFlower_2_Width = 100;
 
     public final static int FLOWER_POINTS = 2;
 
