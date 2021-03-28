@@ -32,6 +32,11 @@ public class SpellingButterfly extends Game {
 		generator.dispose();
 
 
+
+//Initialize the spriteBatch as requirement
+
+
+
 //		font = new BitmapFont(); // use libGDX's default Arial font
 //		font.getData().setScale(6, 6);
 //		batch = new SpriteBatch();

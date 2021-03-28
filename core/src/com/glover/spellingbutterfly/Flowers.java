@@ -48,7 +48,7 @@ public class Flowers {
 
     public static void spawnFlower() {
         boolean whichFlower = MathUtils.randomBoolean();
-        System.out.println(whichFlower);
+//        System.out.println(whichFlower);
         if (whichFlower) {
 
             Rectangle pinkFlower_1 = new Rectangle();

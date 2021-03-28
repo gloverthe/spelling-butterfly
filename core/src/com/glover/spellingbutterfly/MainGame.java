@@ -71,8 +71,8 @@ public class MainGame implements Screen {
 //            System.out.println("tried to shower flower");
             game.batch.draw(Flowers.flowerSprites.get(i),  Flowers.flowers.get(i).x, Flowers.flowers.get(i).y);
 //            game.batch.draw(Flowers.pinkFlower_1_Sprite,  Flowers.flowers.get(i).x, Flowers.flowers.get(i).y);
-            System.out.println("tried to shower flower, details : " + Flowers.flowerSprites.get(i) );
-            System.out.println("tried to shower flower, details : " + Flowers.flowers.get(i).x  + " " + Flowers.flowers.get(i).y);
+//            System.out.println("tried to shower flower, details : " + Flowers.flowerSprites.get(i) );
+//            System.out.println("tried to shower flower, details : " + Flowers.flowers.get(i).x  + " " + Flowers.flowers.get(i).y);
         }
 
 
@@ -133,7 +133,7 @@ public class MainGame implements Screen {
                 Flowers.flowerPop.play();
                 flowerCounter ++;
                 SpellingButterfly.totalScore += Flowers.FLOWER_POINTS;
-                if(flowerCounter % 2 == 0) {
+                if(flowerCounter % Constants.FLOWERS_FOR_PUZZLE == 0) {
                     game.setScreen(new HiddenWordGame(game));
                 }
                 Flowers.flowers.removeIndex(irate);

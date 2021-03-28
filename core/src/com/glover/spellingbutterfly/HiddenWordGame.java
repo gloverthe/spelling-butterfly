@@ -1,8 +1,11 @@
 package com.glover.spellingbutterfly;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
@@ -32,10 +35,15 @@ public class HiddenWordGame implements Screen {
     public String guessThree;
     public int answerBox;
     public Object guessBoxOne;
-
+    public static String whichWord;
     public static ArrayList<String> wordListArray = new ArrayList<>();
     public static ArrayList<String> questionAndAnswer = new ArrayList<>();
     private String level;
+    public static GlyphLayout whichWordGlyph;
+    public static GlyphLayout questionStringGlyph;
+    public static GlyphLayout guessOneGlyph;
+    public static GlyphLayout guessTwoGlyph;
+    public static GlyphLayout guessThreeGlyph;
 
 
     public HiddenWordGame (final SpellingButterfly playGame) {
@@ -67,12 +75,12 @@ public class HiddenWordGame implements Screen {
         Collections.shuffle(intList);
         intList.toArray(intArray);
 
-        System.out.println("Last word : " + wordListArray.get(wordListArrayLength));
-        System.out.println(Arrays.toString(intArray));
-        System.out.println("Can you find the word: " + questionAndAnswer.get(0));
-        System.out.println("Word 1: " + questionAndAnswer.get(intArray[0]));
-        System.out.println("Word 2: " + questionAndAnswer.get(intArray[1]));
-        System.out.println("Word 3: " + questionAndAnswer.get(intArray[2]));
+//        System.out.println("Last word : " + wordListArray.get(wordListArrayLength));
+//        System.out.println(Arrays.toString(intArray));
+//        System.out.println("Can you find the word: " + questionAndAnswer.get(0));
+//        System.out.println("Word 1: " + questionAndAnswer.get(intArray[0]));
+//        System.out.println("Word 2: " + questionAndAnswer.get(intArray[1]));
+//        System.out.println("Word 3: " + questionAndAnswer.get(intArray[2]));
 
 
         questionString = questionAndAnswer.get(0);
@@ -86,7 +94,22 @@ public class HiddenWordGame implements Screen {
 
 //        System.out.println( "The answer is in box : " + answerBox);
 
+//        Setup glyphs to get the dimension of the text
+        whichWord = "Which word can you see?";
+        whichWordGlyph = new GlyphLayout();
+        whichWordGlyph.setText(game.font,whichWord);
+        questionStringGlyph = new GlyphLayout();
+        questionStringGlyph.setText(game.font,questionString);
+        guessOneGlyph = new GlyphLayout();
+        guessOneGlyph.setText(game.font,guessOne);
+        guessTwoGlyph = new GlyphLayout();
+        guessTwoGlyph.setText(game.font,guessTwo);
+        guessThreeGlyph = new GlyphLayout();
+        guessThreeGlyph.setText(game.font,guessOne);
 
+//        System.out.println("Which word height is : " + whichWordGlyph.height);
+//        System.out.println("Which word height is : " + questionStringGlyph.height);
+//        System.out.println("Which word height is : " + guessOneGlyph.height);
 
     }
 
@@ -157,9 +180,15 @@ public class HiddenWordGame implements Screen {
 //        String randomWord;
 
 
+
+//            float w = guessOneGlyph.width;
+//            font.draw(spriteBatch, glyphLayout, (Game.SCREEN_WIDTH - w)/2, y);
+
+            GL20 gl = Gdx.gl;
+            gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             game.batch.begin();
 
-            game.batch.draw(Background.flowerBackground1, Background.xCoordBg1, 0);
+            game.batch.draw(Background.flowerBackground1, 0, 0);
             game.batch.draw(Boxes.blueTextBox, Boxes.blueTextBoxDeclare.x, Boxes.blueTextBoxDeclare.y);
             game.batch.draw(Boxes.blueTextBox_600x150, Boxes.blueTextBoxDeclare_600x150.x, Boxes.blueTextBoxDeclare_600x150.y);
 //            game.batch.draw(Boxes.guessBox, Boxes.blueTextBox_300x150(300, 150));
@@ -168,12 +197,12 @@ public class HiddenWordGame implements Screen {
             }
 //            game.batch.draw(Boxes.guessBox, Boxes.guessBoxes.get(0).x,
 
-            game.font.draw(game.batch, "Which word can you see? ", (960 - 580) + 5, 960 + 30);
-            game.font.draw(game.batch, questionString, 960 - 225, 665);
+            game.font.draw(game.batch, whichWord, ((Constants.SCREEN_WIDTH/2) - (whichWordGlyph.width / 2)), (Constants.SCREEN_HEIGHT - (Constants.SCREEN_HEIGHT / 4) ) + ( whichWordGlyph.height / 2)  );
+            game.font.draw(game.batch, questionString, ((Constants.SCREEN_WIDTH/2) - (questionStringGlyph.width / 2)), (Constants.SCREEN_HEIGHT - (Constants.SCREEN_HEIGHT / 2) ) + ( questionStringGlyph.height / 2));
 
-            game.font.draw(game.batch, guessOne, 480 - 60, 410);
-            game.font.draw(game.batch, guessTwo, 960 - 60, 410);
-            game.font.draw(game.batch, guessThree, 1440 - 60, 410);
+            game.font.draw(game.batch, guessOne, (Constants.SCREEN_WIDTH/4)  - (guessOneGlyph.width / 2), (Constants.SCREEN_HEIGHT - ((Constants.SCREEN_HEIGHT / 4)*3) ) + ( guessOneGlyph.height / 2));
+            game.font.draw(game.batch, guessTwo, ((Constants.SCREEN_WIDTH/2) - (guessTwoGlyph.width / 2)), (Constants.SCREEN_HEIGHT - ((Constants.SCREEN_HEIGHT / 4)*3) ) + ( guessTwoGlyph.height / 2));
+            game.font.draw(game.batch, guessThree, (((Constants.SCREEN_WIDTH/4)*3) - (guessThreeGlyph.width / 2))+10, (Constants.SCREEN_HEIGHT - ((Constants.SCREEN_HEIGHT / 4)*3) ) + ( guessOneGlyph.height / 2));
 //            System.out.println(hideWord()[0]);
 //            System.out.println(guessOne);
             game.batch.end();

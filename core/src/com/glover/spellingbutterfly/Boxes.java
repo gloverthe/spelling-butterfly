@@ -20,6 +20,7 @@ public class Boxes {
     public static Array<Rectangle> guessBoxes;
 
    public static Texture guessBox;
+   public static Texture guessBoxPressed;
 //   public static Rectangle guessBoxOneDelcare;
 
     public static void load() {
@@ -28,33 +29,39 @@ public class Boxes {
         rightAnswer = Gdx.audio.newSound(Gdx.files.internal("sounds/yay.wav"));
         wrongAnswer = Gdx.audio.newSound(Gdx.files.internal("sounds/wrongAnswer.wav"));
 
-        blueTextBox = new Texture(Gdx.files.internal("blueTextBox_1200x150.png"));
+        blueTextBox = new Texture(Gdx.files.internal("images/glossybluebutton_1300x200.png"));
+        blueTextBox.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         blueTextBoxDeclare = new Rectangle();
-        blueTextBoxDeclare.width = 1200;
-        blueTextBoxDeclare.height = 150;
+        blueTextBoxDeclare.width = 1300;
+        blueTextBoxDeclare.height = 200;
 
         blueTextBoxDeclare.x = (Constants.SCREEN_WIDTH / 2) - (blueTextBoxDeclare.width / 2);
-        blueTextBoxDeclare.y = (Constants.SCREEN_HEIGHT - ((Constants.SCREEN_HEIGHT / 3)- 60) );
+        blueTextBoxDeclare.y = (Constants.SCREEN_HEIGHT - (Constants.SCREEN_HEIGHT / 4))- (blueTextBoxDeclare.height/2 );
+
+//
 
 
-
-        blueTextBox_600x150 = new Texture(Gdx.files.internal("blueTextBox_800x150.png"));
+        blueTextBox_600x150 = new Texture(Gdx.files.internal("images/question_800x200.png"));
+        blueTextBox_600x150.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         blueTextBoxDeclare_600x150 = new Rectangle();
 
         blueTextBoxDeclare_600x150.width = 800;
-        blueTextBoxDeclare_600x150.height = 150;
+        blueTextBoxDeclare_600x150.height = 200;
         blueTextBoxDeclare_600x150.x = (Constants.SCREEN_WIDTH / 2) - (blueTextBoxDeclare_600x150.width / 2);
-        blueTextBoxDeclare_600x150.y = (Constants.SCREEN_HEIGHT - (Constants.SCREEN_HEIGHT / 2))- 60 ;
+        blueTextBoxDeclare_600x150.y = (Constants.SCREEN_HEIGHT - (Constants.SCREEN_HEIGHT / 2))- (blueTextBoxDeclare_600x150.height / 2) ;
 //        blueTextBoxDeclare_600x150.x = 960 -400;
 //        blueTextBoxDeclare_600x150.y = 640 -75 ;
 
 
-        guessBox = new Texture(Gdx.files.internal("blueTextBox_300x150.png"));
+        guessBox = new Texture(Gdx.files.internal("images/glossybluebutton_300x200.png"));
+        guessBox.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        guessBoxPressed = new Texture(Gdx.files.internal("images/glossybluebuttonpressed_300x200.png"));
+        guessBoxPressed.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         guessBoxes= new Array<Rectangle>();
-        Boxes.blueTextBox_300x150(480-150, 320);
-        Boxes.blueTextBox_300x150(960-150, 320);
-        Boxes.blueTextBox_300x150(1440-150, 320);
+        Boxes.blueTextBox_300x150((Constants.SCREEN_WIDTH/4)-150, (Constants.SCREEN_HEIGHT - ((Constants.SCREEN_HEIGHT / 4)*3)) - 100);
+        Boxes.blueTextBox_300x150((Constants.SCREEN_WIDTH/2)-150, (Constants.SCREEN_HEIGHT - ((Constants.SCREEN_HEIGHT / 4)*3)) - 100);
+        Boxes.blueTextBox_300x150(((Constants.SCREEN_WIDTH / 4)*3) -150, (Constants.SCREEN_HEIGHT - ((Constants.SCREEN_HEIGHT / 4)*3)) - 100);
 //        guessBoxOneDelcare = new Rectangle();
 //
 //
@@ -76,7 +83,7 @@ public class Boxes {
         blueTextBoxDeclare_300x150.x = xPos;
         blueTextBoxDeclare_300x150.y = yPos ;
         blueTextBoxDeclare_300x150.width = 300;
-        blueTextBoxDeclare_300x150.height = 150;
+        blueTextBoxDeclare_300x150.height = 200;
         guessBoxes.add(blueTextBoxDeclare_300x150);
 
     }
