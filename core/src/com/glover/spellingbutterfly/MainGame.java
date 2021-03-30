@@ -33,6 +33,7 @@ public class MainGame implements Screen {
         Butterfly.load();
         Flowers.load();
         ButterFire.load();
+        EnemyFire.load();
 
 
 //		create camera
@@ -64,10 +65,17 @@ public class MainGame implements Screen {
 //        (ButterFire.butterFired.size > 0) {
             for (Rectangle bullets : ButterFire.butterFired) {
                 game.batch.draw(ButterFire.butterFire, bullets.x, bullets.y);
-                System.out.println(("Bullets : " + bullets.x + " " + bullets.y));
+//                System.out.println(("Bullets : " + bullets.x + " " + bullets.y));
             }
 //        }
 //
+        for (Rectangle enemyBullets : EnemyFire.enemyBullets) {
+            game.batch.draw(ButterFire.butterFire, enemyBullets.x, enemyBullets.y);
+//                System.out.println(("Bullets : " + bullets.x + " " + bullets.y));
+        }
+
+
+
         for(int i = 0; Flowers.flowerSprites.size() > i; i ++) {
             Flowers.flowers.get(i).y = Flowers.flowers.get(i).y + (-(float)Math.cos(Flowers.flowers.get(i).x / 20) * 10);
 //            System.out.println("tried to shower flower");
@@ -103,7 +111,7 @@ public class MainGame implements Screen {
 //                flapTime = TimeUtils.nanoTime();
 //            }
 //        }
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)) ButterFire.FireButterBullet(Math.round(Butterfly.butterfly.y));
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)) ButterFire.FireButterBullet(Math.round(Butterfly.butterfly.y + (Butterfly.butterfly.height/2)));
 
         if(Gdx.input.isKeyPressed(Input.Keys.UP)) Butterfly.butterfly.y += 200 * Gdx.graphics.getDeltaTime();
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) Butterfly.butterfly.y -= 200 * Gdx.graphics.getDeltaTime();
@@ -126,12 +134,36 @@ public class MainGame implements Screen {
 //            }
 //        }
 
-        Iterator<Rectangle> iter = ButterFire.butterFired.iterator();
-        while (iter.hasNext()) {
-            Rectangle bullets = iter.next();
+//        Iterator<Rectangle> iter = EnemyFire.enemyBullets.iterator();
+//        while (iter.hasNext()) {
+//            Rectangle bullets = iter.next();
+//            bullets.x -= 700 * Gdx.graphics.getDeltaTime();
+//            if (bullets.x - 30 < 0)
+//                iter.remove();
+//        }
+        for (int irate = 0; EnemyFire.enemyBullets.size > irate; irate++) {
+            EnemyFire.enemyBullets.get(irate).x -= 700 * Gdx.graphics.getDeltaTime();
+            EnemyFire.enemyBullets.get(irate).y -= (700 * Gdx.graphics.getDeltaTime()) * EnemyFire.getCoords(irate)[4];
+
+//                    700 * Gdx.graphics.getDeltaTime();
+            if (EnemyFire.enemyBullets.get(irate).x < 0 || EnemyFire.enemyBullets.get(irate).x > Constants.SCREEN_WIDTH+100 ||
+                    EnemyFire.enemyBullets.get(irate).y < 0 || EnemyFire.enemyBullets.get(irate).y > Constants.SCREEN_HEIGHT) {
+                EnemyFire.enemyBullets.removeIndex(irate);
+                EnemyFire.removeCoords(irate);
+            }
+
+
+        }
+
+
+
+
+        Iterator<Rectangle> iter2 = ButterFire.butterFired.iterator();
+        while (iter2.hasNext()) {
+            Rectangle bullets = iter2.next();
             bullets.x += 600 * Gdx.graphics.getDeltaTime();
             if (bullets.x + 30 > Constants.SCREEN_WIDTH)
-                iter.remove();
+                iter2.remove();
             for (int irate = 0; Flowers.flowerSprites.size() > irate; irate++) {
                 if(bullets.overlaps(Flowers.flowers.get(irate))) {
                     Flowers.flowers.removeIndex(irate);
@@ -154,7 +186,10 @@ public class MainGame implements Screen {
         if(TimeUtils.nanoTime() - Flowers.lastFlowerTime > 1000000000) Flowers.spawnFlower();
 
 
+
+
         for (int irate = 0; Flowers.flowerSprites.size() > irate; irate++) {
+            System.out.println("Debug flowers " + irate);
             Flowers.flowers.get(irate).x -= 400 * Gdx.graphics.getDeltaTime();
             if(Flowers.flowers.get(irate).x < ( - Flowers.flowerSprites.get(irate).getWidth() )) {
                 Flowers.flowers.removeIndex(irate);
@@ -173,7 +208,19 @@ public class MainGame implements Screen {
             }
 
         }
+        for (int irate = 0; Flowers.flowers.size > irate; irate++) {
+            //      Should enemies fire at the play?
+            if (MathUtils.random(0, 100) > 99) {
+                System.out.println("Debugging");
+                EnemyFire.enemyFire(Math.round(Flowers.flowers.get(irate).x), Math.round(Flowers.flowers.get(irate).y));
+                System.out.println("Flower y = " + Flowers.flowers.get(irate).y + " & pos : " + irate );
+                EnemyFire.addCoords(Math.round(Butterfly.butterfly.x), Math.round(Butterfly.butterfly.y), Math.round(Flowers.flowers.get(irate).x), Math.round(Flowers.flowers.get(irate).y) );
+                irate++;
+            }
+            else irate++;
 
+
+        }
 
     }
     @Override

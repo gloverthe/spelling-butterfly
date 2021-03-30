@@ -31,4 +31,7 @@ public class ButterFire {
         butterFireTmp.height = BUTTERFIRE_HEIGHT;
         butterFired.add(butterFireTmp);
     }
+
+
 }
+
